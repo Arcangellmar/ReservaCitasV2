@@ -35,19 +35,6 @@ namespace ReservaCitasV2.Controllers
             AddHora(6, "09:30");
             AddHora(7, "10:00");
 
-            //var lstEspecialidades = new List<string>()
-            //{
-            //};
-            //for (int i = 0; i < lstEspecialidades.Count(); i++)
-            //{
-            //    AddEspecialidad(i, lstEspecialidades[i], new List<int> { 1, 2, 3, 4, 5 }, new List<int> { 1, 2, 3, 4, 5, 6, 7 });
-            ////}
-            //AddDoctor(1, "", 0);
-            //AddDoctor(2, "", 1);
-            //AddDoctor(3, "", 1);
-            //AddDoctor(4, "", 1);
-            //AddDoctor(5, "", 2);
-            //AddDoctor(6, "", 3);
             AddCita(1, 2, 3, 9, 4, "ATENCION AMBULATORIA");
             AddCita(2, 1, 4, 9, 4, "ATENCION AMBULATORIA");
             AddCita(3, 2, 11, 9, 4, "ATENCION AMBULATORIA");
@@ -95,39 +82,6 @@ namespace ReservaCitasV2.Controllers
             var e = new Hora { Id = id, Name = name };
             model.lstHora.Add(e);
         }
-        //public Paciente Paciente { get; set; } = new Paciente()
-        //{
-        //    Id = 1,
-        //    Name = "Gino Monrroy",
-        //    Edad = 26,
-        //    Sexo = 1,
-        //    Altura = 1.82,
-        //    Peso = 81.5,
-        //    Seguro = 0,
-        //};
-        //private void AddDoctor(int id, string name, int IdEspecialidad)
-        //{
-        //    var esp = model.lstEspecialidad.FirstOrDefault(u => u.Id == IdEspecialidad) ?? throw new Exception("Sin Especialidad");
-        //    var e = new Doctor()
-        //    {
-        //        Id = id,
-        //        Name = name,
-        //        IdEspecialidad = IdEspecialidad,
-        //        Especialidad = esp,
-        //    };
-        //    model.lstDoctor.Add(e);
-        //}
-        //private void AddEspecialidad(int id, string name, List<int> dias, List<int> horas)
-        //{
-        //    var e = new Especialidad()
-        //    {
-        //        Id = id,
-        //        Name = name,
-        //        Dias = dias,
-        //        Horas = horas
-        //    };
-        //    model.lstEspecialidad.Add(e);
-        //}
         private void AddCita(int id, int idDoctor, int idDia, int idMes, int idHora, string comentario)
         {
             var doc = model.lstDoctor.FirstOrDefault(u => u.Id == idDoctor) ?? throw new Exception("Sin Médico");
