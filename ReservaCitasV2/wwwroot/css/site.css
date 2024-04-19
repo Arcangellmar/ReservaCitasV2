@@ -1,0 +1,53 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.msg_box {
+    max-width: 90%;
+    min-width: 10%;
+    width: fit-content;
+    margin: 0.5em auto;
+    border-radius: 15px;
+    background: #0d6efd;
+    color: #fff;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: arial;
+    position: relative;
+}
+
+.msg_box_right:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    text-align: right;
+}
+
+.msg_box_left:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    text-align: left;
+}
