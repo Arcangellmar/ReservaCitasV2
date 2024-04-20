@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using ReservaCitasV2.Data;
+using ReservaCitasV2.Models.CitasEntities;
 using System.Data;
 
 namespace ReservaCitasV2.DAO
@@ -175,6 +176,83 @@ namespace ReservaCitasV2.DAO
 
                             e.Id = Convert.ToInt32(reader["ID_ESPECIALIDAD"]);
                             e.Name = Convert.ToString(reader["VC_NOMRBE"]);
+
+                            response.Add(e);
+                        }
+                    }
+
+                    cn.Close();
+                    cn.Dispose();
+                }
+            }
+            catch
+            {
+
+            }
+
+            return response;
+        }
+
+        public bool CitaRegistrar(CitaCrearRequest request)
+        {
+            bool response = false;
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(connection))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cn.Open();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"SP_CITA_CREAR";
+
+                    cmd.Parameters.Add("@PARAM_IN_ID_DOCTOR", MySqlDbType.Int32).Value = request.IdDoctor;
+                    cmd.Parameters.Add("@PARAM_IN_ID_PACIENTE", MySqlDbType.Int32).Value = request.IdPaciente;
+                    cmd.Parameters.Add("@PARAM_IN_ID_LOCAL", MySqlDbType.Int32).Value = request.IdLocal;
+                    cmd.Parameters.Add("@PARAM_DT_FECHA", MySqlDbType.Date).Value = request.Fecha;
+                    cmd.Parameters.Add("@PARAM_HR_HORA", MySqlDbType.Time).Value = request.Hora;
+                    cmd.Parameters.Add("@PARAM_IN_ID_ESPECIALIDAD", MySqlDbType.Int32).Value = request.IdEspecialidad;
+
+                    cmd.ExecuteNonQuery();
+
+                    response = true;
+
+                    cn.Close();
+                    cn.Dispose();
+                }
+            }
+            catch
+            {
+
+            }
+
+            return response;
+        }
+
+        public List<Local> LocalListar()
+        {
+            List<Local> response = new();
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(connection))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cn.Open();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"SP_LOCAL_LISTAR";
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Local e = new();
+
+                            e.Id = Convert.ToInt32(reader["ID_LOCAL"]);
+                            e.Name = Convert.ToString(reader["VC_NOIMBRE"]);
+                            e.Address = Convert.ToString(reader["VC_DIRECCION"]);
 
                             response.Add(e);
                         }

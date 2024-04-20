@@ -10,5 +10,7 @@ namespace ReservaCitasV2.Models
         public List<Hora> lstHora { get; set; } = new();
         public List<Cita> lstCita { get; set; } = new();
         public List<Cita> lstCitaProgramada { get; set; } = new();
+
+        public List<Local> lstLocal { get; set; } = new();
     }
 }

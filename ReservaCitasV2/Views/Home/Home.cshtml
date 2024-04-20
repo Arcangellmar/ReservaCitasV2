@@ -23,10 +23,10 @@
     double Peso = Convert.ToDouble(Model.Usuario.Peso);
 }
 
-<header class="container">
+<header class="container mb-3">
     <nav class="navbar navbar-expand-lg bg-light border border-1 border-bottom-0 border-dark" data-bs-theme="light">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">CitasAPP</a>
+            <a class="navbar-brand" asp-area="" asp-page="/Home">CitasAPP</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,8 +36,8 @@
                 <div class="d-flex">
                     <div class="input-group">
                         <span class="input-group-text border-1 border-dark" id="basic-addon1"><i class="bi bi-person-circle"></i></span>
-                        <input type="text" class="form-control text-dark border-1 border-dark bg-white my-2 my-sm-0" aria-label="Username" aria-describedby="basic-addon1" value="Gino Monrroy" readonly disabled>
-                        <a role="button" href="#logout" class="btn input-group-text border-1 border-danger text-danger"><i class="bi bi-box-arrow-right"></i></a>
+                        <input type="text" class="form-control text-dark border-1 border-dark bg-white my-2 my-sm-0" aria-label="Username" aria-describedby="basic-addon1" value="@Name" readonly disabled>
+                        <btn role="button" onclick="logout();" class="btn input-group-text border-1 border-danger text-danger"><i class="bi bi-box-arrow-right"></i></btn>
                     </div>
                 </div>
             </div>
@@ -52,132 +52,18 @@
     </nav>
 </header>
 
-<div class="row h-100">
-    <div class="col" id="main_body">
-        <header class="p-1 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
-                style="border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px;" id="tab_tittle">
-            Reserva de Cita
-        </header>
-        <div class="border border-2 border-top-0 p-3"
-             style="position: relative; height:40em; border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px;" id="tab_container">
-            @{
-                #region Reserva
-            }
-            <div id="tabReserva" class="h-100">
-                <div class="row h-100">
-                    <div class="col-3 h-100 border-end border-1 pe-0" style="width: 20%;">
-                        <h3>Datos del Paciente</h3>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="">
-                                    <label class="form-label fw-bold">Nombres:</label>
-                                    <p id="pacienteNombre" class="form-label">@Name</p>
-                                </div>
-                                <div class="">
-                                    <label class="form-label fw-bold">Edad:</label>
-                                    <p class="form-label">@Edad años</p>
-                                </div>
-                                <div class="">
-                                    <label class="form-label fw-bold">Sexo:</label>
-                                    <p class="form-label">@Sexo</p>
-                                </div>
-                                <div class="">
-                                    <label class="form-label fw-bold">Seguro:</label>
-                                    <p id="pacienteSeguro" class="form-label">@Seguro</p>
-                                </div>
-                                <div class="">
-                                    <label class="form-label fw-bold">Peso:</label>
-                                    <p class="form-label">@Peso Kg</p>
-                                </div>
-                                <div class="">
-                                    <label class="form-label fw-bold">Altura:</label>
-                                    <p class="form-label">@Altura m</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col border-start border-1">
-                        <h2>Datos de la Reserva</h2>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="lstEsp" class="form-label fw-bold">Especialidad:</label>
-                                    <select class="form-select" id="lstEsp" required="">
-                                        <option value="-1">SELECCIONAR</option>
-                                        @{
-                                            foreach (var i in Model.lstEspecialidad)
-                                            {
-                                                <option value="@i.Name">@i.Name</option>
-                                                // <option value="@i.Id">@i.Name</option>
-                                            }
-                                        }
-                                    </select>
-                                    <div class="invalid-feedback">Rellena este campo</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="lstDoc" class="form-label fw-bold">Médico:</label>
-                                    <select class="form-select" id="lstDoc" required="">
-                                        <option value="-1">SELECCIONAR</option>
-                                        @{
-                                            foreach (var i in Model.lstDoctor)
-                                            {
-                                                <option value="@i.Name">@i.Name</option>
-                                                // <option value="@i.Id">@i.Name</option>
-                                            }
-                                        }
-                                    </select>
-                                    <div class="invalid-feedback">Rellena este campo</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-group">
-                                    @{
-                                        string today = DateTime.Now.ToString("yyyy-MM-dd");
-                                        string endMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)).ToString("yyyy-MM-dd");
-                                    }
-                                    <label for="txtDate" class="form-label fw-bold">Fecha:</label>
-                                    <input type="date" min="@today" max="@endMonth" value="@today" class="form-control" id="txtDate" required="">
-                                    <div class="invalid-feedback">Rellena este campo</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="lstHour" class="form-label fw-bold">Horas Disponibles:</label>
-                                    <select class="form-select" id="lstHour" required="">
-                                        <option value="-1">--:--</option>
-                                        @{
-                                            foreach (var i in Model.lstHora)
-                                            {
-                                                <option value="@i.Name">@i.Name</option>
-                                                // <option value="@i.Id">@i.Name</option>
-                                            }
-                                        }
-                                    </select>
-                                    <div class="invalid-feedback">Rellena este campo</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col d-grid">
-                                <button type="button" onclick="reservaCita()" class="btn btn-primary">RESERVAR CITA <i class="bi bi-arrow-bar-right"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @{
-                #endregion
-            }
-            <div id="tabReprogramar" class="visually-hidden">
-                <div class="visually-hidden" id="tabReprogramar2">
+<div class="container">
+    <div class="row h-100">
+        <div class="col" id="main_body">
+            <header class="p-1 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
+                    style="border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px;" id="tab_tittle">
+                Reserva de Cita
+            </header>
+            <div class="border border-2 border-top-0 p-3"
+                 style="position: relative; height:40em; border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px;" id="tab_container">
+                
+
+                <div id="tabReserva" class="h-100">
                     <div class="row h-100">
                         <div class="col-3 h-100 border-end border-1 pe-0" style="width: 20%;">
                             <h3>Datos del Paciente</h3>
@@ -215,13 +101,13 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="lstEspReprogramar" class="form-label fw-bold">Especialidad:</label>
-                                        <select class="form-select" id="lstEspReprogramar" disabled="">
-                                            <option value="MEDICINA FISICA - REHABILITACION">MEDICINA FISICA - REHABILITACION</option>
+                                        <label for="lstEsp" class="form-label fw-bold">Especialidad:</label>
+                                        <select class="form-select" id="lstEsp" required="">
+                                            <option value="-1">SELECCIONAR</option>
                                             @{
                                                 foreach (var i in Model.lstEspecialidad)
                                                 {
-                                                    <option value="@i.Name">@i.Name</option>
+                                                    <option value="@i.Id">@i.Name</option>
                                                     // <option value="@i.Id">@i.Name</option>
                                                 }
                                             }
@@ -233,13 +119,13 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="lstDocReprogramar" class="form-label fw-bold">Médico:</label>
-                                        <select class="form-select" id="lstDocReprogramar" disabled="">
-                                            <option value="Dr. Monrroy">Dr. Monrroy</option>
+                                        <label for="lstDoc" class="form-label fw-bold">Médico:</label>
+                                        <select class="form-select" id="lstDoc" required="">
+                                            <option value="-1">SELECCIONAR</option>
                                             @{
                                                 foreach (var i in Model.lstDoctor)
                                                 {
-                                                    <option value="@i.Name">@i.Name</option>
+                                                    <option value="@i.Id">@i.Name</option>
                                                     // <option value="@i.Id">@i.Name</option>
                                                 }
                                             }
@@ -248,11 +134,34 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row mb-3">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="txtDateReprogramar" class="form-label fw-bold">Fecha:</label>
-                                        <input type="date" min="@today" max="@endMonth" value="2023-10-28" class="form-control" id="txtDateReprogramar" required="">
+                                        <label for="local" class="form-label fw-bold">Local:</label>
+                                        <select class="form-select" id="local" required="">
+                                            <option value="-1">SELECCIONAR</option>
+                                            @{
+                                                foreach (var i in Model.lstLocal)
+                                                {
+                                                    <option value="@i.Id">@i.Name</option>
+                                                    // <option value="@i.Id">@i.Name</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <div class="form-group">
+                                        @{
+                                            string today = DateTime.Now.ToString("yyyy-MM-dd");
+                                            string endMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)).ToString("yyyy-MM-dd");
+                                        }
+                                        <label for="txtDate" class="form-label fw-bold">Fecha:</label>
+                                        <input type="date" min="@today" max="@endMonth" value="@today" class="form-control" id="txtDate" required="">
                                         <div class="invalid-feedback">Rellena este campo</div>
                                     </div>
                                 </div>
@@ -260,9 +169,9 @@
                             <div class="row mb-3">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="lstHourReprogramar" class="form-label fw-bold">Horas Disponibles:</label>
-                                        <select class="form-select" id="lstHourReprogramar" required="">
-                                            <option value="07:30">07:30</option>
+                                        <label for="lstHour" class="form-label fw-bold">Horas Disponibles:</label>
+                                        <select class="form-select" id="lstHour" required="">
+                                            <option value="-1">--:--</option>
                                             @{
                                                 foreach (var i in Model.lstHora)
                                                 {
@@ -276,292 +185,404 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col d-grid gap-2">
-                                    <button id="btnReprogramar_Aceptar" type="button" onclick="reprogramarCita()" class="btn btn-primary">REPROGRAMAR CITA <i class="bi bi-arrow-bar-right"></i></button>
-                                    <button id="btnReprogramar_Cancelar" type="button" onclick="reprogramarCita_Cancelar()" class="btn btn-danger">ATRAS <i class="bi bi-arrow-bar-left"></i></button>
+                                <div class="col d-grid">
+                                    <button type="button" onclick="reservaCita()" class="btn btn-primary">RESERVAR CITA <i class="bi bi-arrow-bar-right"></i></button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="" id="tabReprogramar1">
-                    <div class="row mb-3">
-                        <h4>Citas Programadas</h4>
-                        <div class="col-4">
-                            <label for="txtBuscarProgramadas" class="form-label fw-bold">Buscar:</label>
-                            <input class="form-control" list="dtlProgramadas" id="txtBuscarProgramadas" placeholder="Buscar..." oninput="BuscarCita('tblProgramadas', this)">
-                            <datalist id="dtlProgramadas">
-                                @{
-                                    string srchPro_Fecha = string.Empty;
-                                    string srchPro_Especialidad = string.Empty;
-                                    string srchPro_Medico = string.Empty;
-                                    foreach (var i in Model.lstCitaProgramada)
-                                    {
-                                        string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                        string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                        string hora = Model.lstHora[i.IdHora].Name;
-                                        srchPro_Fecha = $"{dia}/{mes}/2023 - {hora}";
-                                        srchPro_Especialidad = i.Doctor.NombreEspecialidad;
-                                        srchPro_Medico = i.Doctor.Name;
-                                        <option value="@srchPro_Fecha"></option>
-                                        <option value="@srchPro_Especialidad"></option>
-                                        <option value="@srchPro_Medico"></option>
-                                    }
-                                }
-                                <option value="TEST"></option>
-                            </datalist>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <table class="table table-striped table-hover table-bordered align-middle" id="tblProgramadas">
-                                <thead>
-                                    <tr class="text-center fw-bold">
-                                        <th class="text-nowrap">Fecha</th>
-                                        <th class="text-nowrap">Especialidad</th>
-                                        <th class="text-nowrap">Médico</th>
-                                        <th class="text-nowrap" colspan="2">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        string reproFecha = string.Empty;
-                                        string reproEspecialidad = string.Empty;
-                                        string reproMedico = string.Empty;
-                                        foreach (var i in Model.lstCitaProgramada)
-                                        {
-                                            // reproFecha = string.Join(i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString(), "/", i.IdMes, "/2023", " - ");
-                                            string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                            string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                            string hora = Model.lstHora[i.IdHora].Name;
-                                            reproFecha = $"{dia}/{mes}/2023 - {hora}";
-                                            reproEspecialidad = i.Doctor.NombreEspecialidad;
-                                            reproMedico = i.Doctor.Name;
-                                            <tr class="text-center" id="row_reprogramar_@i.Id">
-                                                <td class="text-nowrap">@reproFecha</td>
-                                                <td class="text-wrap">@reproEspecialidad</td>
-                                                <td class="text-wrap">@reproMedico</td>
-                                                <td class="text-nowrap col-1">
-                                                    <button type="button" id="btnReprogramar" onclick="btnReprogramar_Click()" class="btn btn-primary" style="width: 150px" role="button">Reprogramar</button>
-                                                </td>
-                                                <td class="text-nowrap col-1">
-                                                    <button type="button" id="btnReprogramarCancelar" onclick="btnReprogramarCancelar_Click('row_reprogramar_@i.Id')" class="btn btn-danger" style="width: 150px" role="button">Cancelar Cita</button>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="tabCancelar" class="visually-hidden">
-                <h4>Cancelar Reserva de Cita</h4>
-            </div>
-            <div id="tabHistorial" class="visually-hidden">
-                <div class="visually-hidden" id="tabHistorial2">
-                    <div class="row h-100">
-                        <div class="col-3 h-100 border-end border-1 pe-0" style="width: 20%;">
-                            <h3>Datos del Paciente</h3>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="">
-                                        <label class="form-label fw-bold">Nombres:</label>
-                                        <p id="pacienteNombre" class="form-label">@Name</p>
-                                    </div>
-                                    <div class="">
-                                        <label class="form-label fw-bold">Edad:</label>
-                                        <p class="form-label">@Edad años</p>
-                                    </div>
-                                    <div class="">
-                                        <label class="form-label fw-bold">Sexo:</label>
-                                        <p class="form-label">@Sexo</p>
-                                    </div>
-                                    <div class="">
-                                        <label class="form-label fw-bold">Seguro:</label>
-                                        <p id="pacienteSeguro" class="form-label">@Seguro</p>
-                                    </div>
-                                    <div class="">
-                                        <label class="form-label fw-bold">Peso:</label>
-                                        <p class="form-label">@Peso Kg</p>
-                                    </div>
-                                    <div class="">
-                                        <label class="form-label fw-bold">Altura:</label>
-                                        <p class="form-label">@Altura m</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col border-start border-1">
-                            <h2>Datos de la Reserva</h2>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="lstEspHistorial" class="form-label fw-bold">Especialidad:</label>
-                                        <select class="form-select" id="lstEspHistorial" disabled="">
-                                            <option value="MEDICINA FISICA - REHABILITACION">MEDICINA FISICA - REHABILITACION</option>
-                                            @{
-                                                foreach (var i in Model.lstEspecialidad)
-                                                {
-                                                    <option value="@i.Name">@i.Name</option>
-                                                    // <option value="@i.Id">@i.Name</option>
-                                                }
-                                            }
-                                        </select>
-                                        <div class="invalid-feedback">Rellena este campo</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="lstDocHistorial" class="form-label fw-bold">Médico:</label>
-                                        <select class="form-select" id="lstDocHistorial" disabled="">
-                                            <option value="Dr. Garcia">Dr. Garcia</option>
-                                            @{
-                                                foreach (var i in Model.lstDoctor)
-                                                {
-                                                    <option value="@i.Name">@i.Name</option>
-                                                    // <option value="@i.Id">@i.Name</option>
-                                                }
-                                            }
-                                        </select>
-                                        <div class="invalid-feedback">Rellena este campo</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="txtDateHistorial" class="form-label fw-bold">Fecha:</label>
-                                        <input type="date" min="@today" max="@endMonth" value="2023-09-03" class="form-control" id="txtDateHistorial" disabled="">
-                                        <div class="invalid-feedback">Rellena este campo</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="lstHourHistorial" class="form-label fw-bold">Horas Disponibles:</label>
-                                        <select class="form-select" id="lstHourHistorial" disabled="">
-                                            <option value="09:00">09:00</option>
-                                            @{
-                                                foreach (var i in Model.lstHora)
-                                                {
-                                                    <option value="@i.Name">@i.Name</option>
-                                                    // <option value="@i.Id">@i.Name</option>
-                                                }
-                                            }
-                                        </select>
-                                        <div class="invalid-feedback">Rellena este campo</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col d-grid gap-2">
-                                    <button id="btnHistorial_Atras" type="button" onclick="historialCita_Cancelar()" class="btn btn-danger">ATRAS <i class="bi bi-arrow-bar-left"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="" id="tabHistorial1">
-                    <h4>Historial de Citas</h4>
-                    <div class="row mb-3">
-                        <div class="col-4">
-                            <label for="txtBuscar" class="form-label fw-bold">Buscar:</label>
-                            <input class="form-control" list="dtlHistorial" id="txtBuscar" placeholder="Buscar..." oninput="BuscarCita('tblHistorial', this)">
-                            <datalist id="dtlHistorial">
-                                @{
-                                    string srchFecha = string.Empty;
-                                    string srchEspecialidad = string.Empty;
-                                    string srchMedico = string.Empty;
-                                    foreach (var i in Model.lstCita)
-                                    {
-                                        string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                        string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                        string hora = Model.lstHora[i.IdHora].Name;
-                                        srchFecha = $"{dia}/{mes}/2023 - {hora}";
-                                        srchEspecialidad = i.Doctor.NombreEspecialidad;
-                                        srchMedico = i.Doctor.Name;
-                                        <option value="@srchFecha"></option>
-                                        <option value="@srchEspecialidad"></option>
-                                        <option value="@srchMedico"></option>
-                                    }
-                                }
-                                <option value="TEST"></option>
-                            </datalist>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <table class="table table-striped table-hover table-bordered align-middle" id="tblHistorial">
-                                <thead>
-                                    <tr class="text-center fw-bold">
-                                        <th class="text-nowrap">Fecha</th>
-                                        <th class="text-nowrap">Especialidad</th>
-                                        <th class="text-nowrap">Médico</th>
-                                        <th class="text-nowrap">Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        string histFecha = string.Empty;
-                                        string histEspecialidad = string.Empty;
-                                        string histMedico = string.Empty;
-                                        foreach (var i in Model.lstCita)
-                                        {
-                                            // histFecha = string.Join(i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString(), "/", i.IdMes, "/2023", " - ");
-                                            string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                            string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                            string hora = Model.lstHora[i.IdHora].Name;
-                                            histFecha = $"{dia}/{mes}/2023 - {hora}";
-                                            histEspecialidad = i.Doctor.NombreEspecialidad;
-                                            histMedico = i.Doctor.Name;
-                                            <tr class="text-center">
-                                                <td class="text-nowrap">@histFecha</td>
-                                                <td class="text-wrap">@histEspecialidad</td>
-                                                <td class="text-wrap">@histMedico</td>
-                                                <td class="text-nowrap col-1">
-                                                    <button type="button" onclick="btnVerDetalles_Historial_Click()" class="btn btn-primary" style="width: 150px" role="button">Ver Detalles</button>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="row">
-            <div class="col">
-                <header class="p-1 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
-                        style="border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px;">
-                    MI AYUDANTE
-                </header>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div id="chat_container" class="border border-2 border-top-0 border-bottom-0 pt-3 pb-3 overflow-y-auto"
-                     style="position: relative; height:35.4em;">
+                <div id="tabReprogramar" class="visually-hidden">
+                    <div class="visually-hidden" id="tabReprogramar2">
+                        <div class="row h-100">
+                            <div class="col-3 h-100 border-end border-1 pe-0" style="width: 20%;">
+                                <h3>Datos del Paciente</h3>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="">
+                                            <label class="form-label fw-bold">Nombres:</label>
+                                            <p id="pacienteNombre" class="form-label">@Name</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Edad:</label>
+                                            <p class="form-label">@Edad años</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Sexo:</label>
+                                            <p class="form-label">@Sexo</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Seguro:</label>
+                                            <p id="pacienteSeguro" class="form-label">@Seguro</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Peso:</label>
+                                            <p class="form-label">@Peso Kg</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Altura:</label>
+                                            <p class="form-label">@Altura m</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col border-start border-1">
+                                <h2>Datos de la Reserva</h2>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lstEspReprogramar" class="form-label fw-bold">Especialidad:</label>
+                                            <select class="form-select" id="lstEspReprogramar" disabled="">
+                                                <option value="MEDICINA FISICA - REHABILITACION">MEDICINA FISICA - REHABILITACION</option>
+                                                @{
+                                                    foreach (var i in Model.lstEspecialidad)
+                                                    {
+                                                        <option value="@i.Name">@i.Name</option>
+                                                        // <option value="@i.Id">@i.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lstDocReprogramar" class="form-label fw-bold">Médico:</label>
+                                            <select class="form-select" id="lstDocReprogramar" disabled="">
+                                                <option value="Dr. Monrroy">Dr. Monrroy</option>
+                                                @{
+                                                    foreach (var i in Model.lstDoctor)
+                                                    {
+                                                        <option value="@i.Name">@i.Name</option>
+                                                        // <option value="@i.Id">@i.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="txtDateReprogramar" class="form-label fw-bold">Fecha:</label>
+                                            <input type="date" min="@today" max="@endMonth" value="2023-10-28" class="form-control" id="txtDateReprogramar" required="">
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lstHourReprogramar" class="form-label fw-bold">Horas Disponibles:</label>
+                                            <select class="form-select" id="lstHourReprogramar" required="">
+                                                <option value="07:30">07:30</option>
+                                                @{
+                                                    foreach (var i in Model.lstHora)
+                                                    {
+                                                        <option value="@i.Name">@i.Name</option>
+                                                        // <option value="@i.Id">@i.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col d-grid gap-2">
+                                        <button id="btnReprogramar_Aceptar" type="button" onclick="reprogramarCita()" class="btn btn-primary">REPROGRAMAR CITA <i class="bi bi-arrow-bar-right"></i></button>
+                                        <button id="btnReprogramar_Cancelar" type="button" onclick="reprogramarCita_Cancelar()" class="btn btn-danger">ATRAS <i class="bi bi-arrow-bar-left"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" id="tabReprogramar1">
+                        <div class="row mb-3">
+                            <h4>Citas Programadas</h4>
+                            <div class="col-4">
+                                <label for="txtBuscarProgramadas" class="form-label fw-bold">Buscar:</label>
+                                <input class="form-control" list="dtlProgramadas" id="txtBuscarProgramadas" placeholder="Buscar..." oninput="BuscarCita('tblProgramadas', this)">
+                                <datalist id="dtlProgramadas">
+                                    @{
+                                        string srchPro_Fecha = string.Empty;
+                                        string srchPro_Especialidad = string.Empty;
+                                        string srchPro_Medico = string.Empty;
+                                        foreach (var i in Model.lstCitaProgramada)
+                                        {
+                                            string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
+                                            string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
+                                            string hora = Model.lstHora[i.IdHora].Name;
+                                            srchPro_Fecha = $"{dia}/{mes}/2023 - {hora}";
+                                            srchPro_Especialidad = i.Doctor.NombreEspecialidad;
+                                            srchPro_Medico = i.Doctor.Name;
+                                            <option value="@srchPro_Fecha"></option>
+                                            <option value="@srchPro_Especialidad"></option>
+                                            <option value="@srchPro_Medico"></option>
+                                        }
+                                    }
+                                    <option value="TEST"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-striped table-hover table-bordered align-middle" id="tblProgramadas">
+                                    <thead>
+                                        <tr class="text-center fw-bold">
+                                            <th class="text-nowrap">Fecha</th>
+                                            <th class="text-nowrap">Especialidad</th>
+                                            <th class="text-nowrap">Médico</th>
+                                            <th class="text-nowrap" colspan="2">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            string reproFecha = string.Empty;
+                                            string reproEspecialidad = string.Empty;
+                                            string reproMedico = string.Empty;
+                                            foreach (var i in Model.lstCitaProgramada)
+                                            {
+                                                // reproFecha = string.Join(i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString(), "/", i.IdMes, "/2023", " - ");
+                                                string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
+                                                string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
+                                                string hora = Model.lstHora[i.IdHora].Name;
+                                                reproFecha = $"{dia}/{mes}/2023 - {hora}";
+                                                reproEspecialidad = i.Doctor.NombreEspecialidad;
+                                                reproMedico = i.Doctor.Name;
+                                                <tr class="text-center" id="row_reprogramar_@i.Id">
+                                                    <td class="text-nowrap">@reproFecha</td>
+                                                    <td class="text-wrap">@reproEspecialidad</td>
+                                                    <td class="text-wrap">@reproMedico</td>
+                                                    <td class="text-nowrap col-1">
+                                                        <button type="button" id="btnReprogramar" onclick="btnReprogramar_Click()" class="btn btn-primary" style="width: 150px" role="button">Reprogramar</button>
+                                                    </td>
+                                                    <td class="text-nowrap col-1">
+                                                        <button type="button" id="btnReprogramarCancelar" onclick="btnReprogramarCancelar_Click('row_reprogramar_@i.Id')" class="btn btn-danger" style="width: 150px" role="button">Cancelar Cita</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tabCancelar" class="visually-hidden">
+                    <h4>Cancelar Reserva de Cita</h4>
+                </div>
+
+                <div id="tabHistorial" class="visually-hidden">
+                    <div class="visually-hidden" id="tabHistorial2">
+                        <div class="row h-100">
+                            <div class="col-3 h-100 border-end border-1 pe-0" style="width: 20%;">
+                                <h3>Datos del Paciente</h3>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="">
+                                            <label class="form-label fw-bold">Nombres:</label>
+                                            <p id="pacienteNombre" class="form-label">@Name</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Edad:</label>
+                                            <p class="form-label">@Edad años</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Sexo:</label>
+                                            <p class="form-label">@Sexo</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Seguro:</label>
+                                            <p id="pacienteSeguro" class="form-label">@Seguro</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Peso:</label>
+                                            <p class="form-label">@Peso Kg</p>
+                                        </div>
+                                        <div class="">
+                                            <label class="form-label fw-bold">Altura:</label>
+                                            <p class="form-label">@Altura m</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col border-start border-1">
+                                <h2>Datos de la Reserva</h2>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lstEspHistorial" class="form-label fw-bold">Especialidad:</label>
+                                            <select class="form-select" id="lstEspHistorial" disabled="">
+                                                <option value="MEDICINA FISICA - REHABILITACION">MEDICINA FISICA - REHABILITACION</option>
+                                                @{
+                                                    foreach (var i in Model.lstEspecialidad)
+                                                    {
+                                                        <option value="@i.Name">@i.Name</option>
+                                                        // <option value="@i.Id">@i.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lstDocHistorial" class="form-label fw-bold">Médico:</label>
+                                            <select class="form-select" id="lstDocHistorial" disabled="">
+                                                <option value="Dr. Garcia">Dr. Garcia</option>
+                                                @{
+                                                    foreach (var i in Model.lstDoctor)
+                                                    {
+                                                        <option value="@i.Name">@i.Name</option>
+                                                        // <option value="@i.Id">@i.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="txtDateHistorial" class="form-label fw-bold">Fecha:</label>
+                                            <input type="date" min="@today" max="@endMonth" value="2023-09-03" class="form-control" id="txtDateHistorial" disabled="">
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="lstHourHistorial" class="form-label fw-bold">Horas Disponibles:</label>
+                                            <select class="form-select" id="lstHourHistorial" disabled="">
+                                                <option value="09:00">09:00</option>
+                                                @{
+                                                    foreach (var i in Model.lstHora)
+                                                    {
+                                                        <option value="@i.Name">@i.Name</option>
+                                                        // <option value="@i.Id">@i.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="invalid-feedback">Rellena este campo</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col d-grid gap-2">
+                                        <button id="btnHistorial_Atras" type="button" onclick="historialCita_Cancelar()" class="btn btn-danger">ATRAS <i class="bi bi-arrow-bar-left"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" id="tabHistorial1">
+                        <h4>Historial de Citas</h4>
+                        <div class="row mb-3">
+                            <div class="col-4">
+                                <label for="txtBuscar" class="form-label fw-bold">Buscar:</label>
+                                <input class="form-control" list="dtlHistorial" id="txtBuscar" placeholder="Buscar..." oninput="BuscarCita('tblHistorial', this)">
+                                <datalist id="dtlHistorial">
+                                    @{
+                                        string srchFecha = string.Empty;
+                                        string srchEspecialidad = string.Empty;
+                                        string srchMedico = string.Empty;
+                                        foreach (var i in Model.lstCita)
+                                        {
+                                            string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
+                                            string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
+                                            string hora = Model.lstHora[i.IdHora].Name;
+                                            srchFecha = $"{dia}/{mes}/2023 - {hora}";
+                                            srchEspecialidad = i.Doctor.NombreEspecialidad;
+                                            srchMedico = i.Doctor.Name;
+                                            <option value="@srchFecha"></option>
+                                            <option value="@srchEspecialidad"></option>
+                                            <option value="@srchMedico"></option>
+                                        }
+                                    }
+                                    <option value="TEST"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table table-striped table-hover table-bordered align-middle" id="tblHistorial">
+                                    <thead>
+                                        <tr class="text-center fw-bold">
+                                            <th class="text-nowrap">Fecha</th>
+                                            <th class="text-nowrap">Especialidad</th>
+                                            <th class="text-nowrap">Médico</th>
+                                            <th class="text-nowrap">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            string histFecha = string.Empty;
+                                            string histEspecialidad = string.Empty;
+                                            string histMedico = string.Empty;
+                                            foreach (var i in Model.lstCita)
+                                            {
+                                                // histFecha = string.Join(i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString(), "/", i.IdMes, "/2023", " - ");
+                                                string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
+                                                string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
+                                                string hora = Model.lstHora[i.IdHora].Name;
+                                                histFecha = $"{dia}/{mes}/2023 - {hora}";
+                                                histEspecialidad = i.Doctor.NombreEspecialidad;
+                                                histMedico = i.Doctor.Name;
+                                                <tr class="text-center">
+                                                    <td class="text-nowrap">@histFecha</td>
+                                                    <td class="text-wrap">@histEspecialidad</td>
+                                                    <td class="text-wrap">@histMedico</td>
+                                                    <td class="text-nowrap col-1">
+                                                        <button type="button" onclick="btnVerDetalles_Historial_Click()" class="btn btn-primary" style="width: 150px" role="button">Ver Detalles</button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="p-3 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
-                     style="border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px;">
-                    <div class="w-100 d-inline-flex gap-3">
-                        <input id="txtMsg" class="form-control" placeholder="Mensaje..." />
-                        <button type="button" class="btn btn-outline-light" onclick="btnSend_Click()"><i class="bi bi-send"></i></button>
-                        <button type="button" class="btn btn-outline-light" id="btnVoice"><i class="bi bi-mic"></i></button>
+        
+        <div class="col-4">
+            <div class="row">
+                <div class="col">
+                    <header class="p-1 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
+                            style="border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px;">
+                        MI AYUDANTE
+                    </header>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="chat_container" class="border border-2 border-top-0 border-bottom-0 pt-3 pb-3 overflow-y-auto"
+                         style="position: relative; height:35.4em;">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="p-3 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
+                         style="border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px;">
+                        <div class="w-100 d-inline-flex gap-3">
+                            <input id="txtMsg" class="form-control" placeholder="Mensaje..." />
+                            <button type="button" class="btn btn-outline-light" onclick="btnSend_Click()"><i class="bi bi-send"></i></button>
+                            <button type="button" class="btn btn-outline-light" id="btnVoice"><i class="bi bi-mic"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -570,11 +591,653 @@
 </div>
 
 
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2023 - CitasAPP
+<footer class="border-top footer text-muted mt-5">
+    <div class="container text-center">
+        &copy; 2024 - CitasAPP
     </div>
 </footer>
 
+
+@section Scripts {
+    <script>
+
+        var IdUsuario = "@Model.Usuario.IdUsuario";
+
+        function logout() {
+
+            $.ajax({
+                url: '@Url.Action("LogOut", "Home")',
+                type: 'GET',
+                contentType: "application/json",
+                success: function (result) {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                },
+                error: function (xhr, status, error) {
+                    // Manejar el error si es necesario
+                    console.error("Error al llamar a MiMetodo");
+                }
+            });
+
+        }
+
+
+        // Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+        // for details on configuring this project to bundle and minify static web assets.
+
+        // Write your JavaScript code.
+
+        (() => {
+            let txtMsg = document.getElementById("txtMsg");
+            txtMsg.addEventListener("keydown", (e) => {
+                if (e.code == "Enter") {
+                    btnSend_Click();
+                }
+            })
+        })();
+
+        function alert(type = '', title = '', html = '') {
+            let timer = 1500
+            if (type === 'success') {
+                timer = 5000
+            }
+            Swal.fire({
+                icon: type,
+                title,
+                html,
+                timer,
+                timerProgressBar: true,
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    console.log('I was closed by the timer')
+                }
+            })
+        }
+
+        function reservaCita() {
+            let pacienteNombre = document.getElementById("pacienteNombre");
+            let pacienteSeguro = document.getElementById("pacienteSeguro");
+
+            let lstEsp = document.getElementById("lstEsp");
+            let lstDoc = document.getElementById("lstDoc");
+            let txtDate = document.getElementById("txtDate");
+            let lstHour = document.getElementById("lstHour");
+            let local = $('#local').val();
+            let fecha = `${txtDate.value.split('-')[2]}/${txtDate.value.split('-')[1]}/${txtDate.value.split("-")[0]}`
+            let failed = false;
+            if (lstEsp.value == '-1') failed = true;
+            if (lstDoc.value == '-1') failed = true;
+            if (lstHour.value == '-1') failed = true;
+            if (failed) {
+                let type = 'error';
+                let title = '¡Faltan rellenar datos!';
+                alert(type, title);
+                return false;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CitaRegistrar", "Home")',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    IdDoctor: 1,
+                    IdPaciente: 1,
+                    Fecha: "",
+                    Hora: "",
+                    IdLocal: 1,
+                    IdEspecialidad: 1
+                }),
+                success: function (result) {
+                    console.log(result);
+
+                    debugger;
+
+
+                    let type = 'success';
+                    let title = '¡Reserva generada con exito!';
+                    head_class = 'text-start text-nowrap'
+                    value_class = 'text-start text-nowrap'
+                    let msg = `
+                        <div class="container w-75">
+                        <table class="table align-middle">
+                            <tbody>
+                                <tr>
+                                    <td class="${head_class}">Paciente</td>
+                                    <td class="${value_class}">${pacienteNombre.innerText}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Seguro</td>
+                                    <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Especialidad</td>
+                                    <td class="${value_class}">${lstEsp.value}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Doctor</td>
+                                    <td class="${value_class}">${lstDoc.value}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Fecha</td>
+                                    <td class="${value_class}">${fecha}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Hora</td>
+                                    <td class="${value_class}">${lstHour.value}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        `;
+
+                    let msg_IA = `
+                        <p class="text-white m-0 ps-2 pe-3 mb-1 text-wrap text-break">DATOS DE LA CITA</p>
+                        <table class="table align-middle">
+                            <tbody>
+                                <tr>
+                                    <td class="${head_class}">Paciente</td>
+                                    <td class="${value_class}">${pacienteNombre.innerText}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Seguro</td>
+                                    <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Especialidad</td>
+                                    <td class="${value_class}">${lstEsp.value}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Doctor</td>
+                                    <td class="${value_class}">${lstDoc.value}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Fecha</td>
+                                    <td class="${value_class}">${fecha}</td>
+                                </tr>
+                                <tr>
+                                    <td class="${head_class}">Hora</td>
+                                    <td class="${value_class}">${lstHour.value}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        `;
+                    alert(type, title, msg);
+                    addMsgBox("Perfecto, se ha generado la reserva con éxito.", 0, "left");
+                    addMsgBox(msg_IA, 0, 'left', 'table');
+                    addMsgBox("Recuerda asistir 30 minutos antes para realizar el pago de tu cita.", 0, "left");
+                    let lnkReprogramar = document.getElementById("lnkReprogramar");
+                    lnkReprogramar.click();
+                    let btnReprogramar_Cancelar = document.getElementById("btnReprogramar_Cancelar");
+                    btnReprogramar_Cancelar.click();
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al llamar a MiMetodo");
+                }
+            });
+
+        }
+
+        function activarTab(tab = 0) {
+            switch (tab) {
+                case 1: {
+                    // let lnkReserva = document.getElementById("lnkReserva");
+                    // lnkReserva.click();
+                    $("#lnkReserva").click();
+                    break;
+                }
+                case 2: {
+                    // let lnkReprogramar = document.getElementById("lnkReprogramar");
+                    // lnkReprogramar.click();
+                    $("#lnkReprogramar").click();
+                    break;
+                }
+                case 3: {
+                    // let lnkHistorial = document.getElementById("lnkHistorial");
+                    // lnkHistorial.click();
+                    $("#lnkHistorial").click();
+                    break;
+                }
+                default:
+                    break
+            }
+        }
+
+        function reprogramarCita() {
+            let pacienteNombre = document.getElementById("pacienteNombre");
+            let pacienteSeguro = document.getElementById("pacienteSeguro");
+            let lstEsp = document.getElementById("lstEspReprogramar");
+            let lstDoc = document.getElementById("lstDocReprogramar");
+            let txtDate = document.getElementById("txtDateReprogramar");
+            let lstHour = document.getElementById("lstHourReprogramar");
+            let fecha = `${txtDate.value.split('-')[2]}/${txtDate.value.split('-')[1]}/${txtDate.value.split("-")[0]}`
+            let failed = false;
+            if (lstEsp.value == '-1') failed = true;
+            if (lstDoc.value == '-1') failed = true;
+            if (lstHour.value == '-1') failed = true;
+            if (failed) {
+                let type = 'error';
+                let title = '¡Faltan rellenar datos!';
+                alert(type, title);
+                return false;
+            }
+            let type = 'success';
+            let title = '¡Cita reprogramada con exito!';
+            head_class = 'text-start text-nowrap'
+            value_class = 'text-start text-nowrap'
+            let msg = `
+            <div class="container w-75">
+            <table class="table align-middle">
+                <tbody>
+                    <tr>
+                        <td class="${head_class}">Paciente</td>
+                        <td class="${value_class}">${pacienteNombre.innerText}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Seguro</td>
+                        <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Especialidad</td>
+                        <td class="${value_class}">${lstEsp.value}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Doctor</td>
+                        <td class="${value_class}">${lstDoc.value}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Fecha</td>
+                        <td class="${value_class}">${fecha}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Hora</td>
+                        <td class="${value_class}">${lstHour.value}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+            `;
+
+            let msg_IA = `
+            <p class="text-white m-0 ps-2 pe-3 mb-1 text-wrap text-break">NUEVOS DATOS DE LA CITA</p>
+            <table class="table align-middle">
+                <tbody>
+                    <tr>
+                        <td class="${head_class}">Paciente</td>
+                        <td class="${value_class}">${pacienteNombre.innerText}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Seguro</td>
+                        <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Especialidad</td>
+                        <td class="${value_class}">${lstEsp.value}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Doctor</td>
+                        <td class="${value_class}">${lstDoc.value}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Fecha</td>
+                        <td class="${value_class}">${fecha}</td>
+                    </tr>
+                    <tr>
+                        <td class="${head_class}">Hora</td>
+                        <td class="${value_class}">${lstHour.value}</td>
+                    </tr>
+                </tbody>
+            </table>
+            `;
+            alert(type, title, msg);
+            addMsgBox(msg_IA, 0, 'left', 'table');
+            let btnReprogramar_Cancelar = document.getElementById("btnReprogramar_Cancelar");
+            btnReprogramar_Cancelar.click();
+            return true;
+        }
+
+        function BuscarCita(tabla, input) {
+            txtBuscar = document.getElementById(input.id);
+            var table = document.getElementById(tabla);
+            for (let row of table.getElementsByTagName("tr")) {
+                for (let cell of row.getElementsByTagName("td")) {
+                    if (txtBuscar === "") {
+                        row.classList.remove("visually-hidden");
+                        continue;
+                    }
+                    if (cell.innerHTML.toUpperCase().includes(txtBuscar.value.toUpperCase())) {
+                        row.classList.remove("visually-hidden");
+                        break;
+                    } else {
+                        row.classList.add("visually-hidden");
+                    }
+                }
+            }
+        }
+
+        function scrollContentToBottom(element) {
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function addMsgBox(text = "", id = 0, side = "left", type = 'text') {
+            if (text == "") {
+                return;
+            }
+            if (text.includes('Adrián')) {
+                text = 'Alo adrian herrera cou'
+            }
+            if (text.includes('doctor Monroy')) {
+                text = 'Quisiera sacar una cita con el Doctor Monrroy en la especialidad de TRAUMATOLOGIA'
+            }
+            if (text.includes('La primera está bien.')) {
+                text = 'la primera fecha esta bien'
+            }
+            let color = side == "right" ? "bg-primary" : "bg-secondary";
+            let msg_class = `d-flex text-wrap justify-content-end align-items-center msg_box msg_box_${side} ${color}`
+            let msg_container = document.createElement("div");
+            msg_container.id = `chat_${side}_${id}`;
+            let speechIA = false;
+            if (side === "right") {
+                msg_container.setAttribute("style", `margin-right: 10px;`);
+            } else if (side === "left") {
+                msg_container.setAttribute("style", `margin-left: 10px;`);
+                speechIA = true;
+            }
+            if (type === 'text') {
+                msg_container.innerHTML = `<p class="text-white m-0 ps-2 pe-3 text-wrap text-break">${text}</p>`;
+            } else {
+                msg_class = `d-flex flex-column text-wrap justify-content-start align-items-start msg_box msg_box_${side} ${color}`
+                msg_container.innerHTML = `${text}`;
+                speechIA = false;
+            }
+            if (speechIA) {
+                speechText(text);
+            }
+
+            msg_container.setAttribute("class", msg_class);
+            let chat_container = document.getElementById("chat_container");
+            chat_container.appendChild(msg_container);
+            scrollContentToBottom(chat_container);
+        }
+
+        function btnSend_Click() {
+            let btnSend = document.getElementById("btnSend");
+            let txtMsg = document.getElementById("txtMsg");
+            let msg = txtMsg.value;
+            addMsgBox(msg, 0, "right");
+            respuestaIA(msg);
+            txtMsg.value = "";
+        }
+
+        function respuestaIA(text = '') {
+            if (text == '') {
+                return 0;
+            }
+            if (text.includes('Adrián')) {
+                text = 'Alo adrian herrera cou'
+            }
+            if (text.includes('doctor Monroy')) {
+                text = 'quisiera sacar una cita con el doctor monrroy en la especialidad de traumatologia'
+            }
+            if (text.includes('La primera está bien.')) {
+                text = 'la primera fecha esta bien'
+            }
+            function searchElement(e, list) {
+                for (let i of list) {
+                    if (i.toLowerCase() == e) {
+                        return true;
+                    }
+                }
+            }
+            text = text.replaceAll('.', '');
+            text = text.toLowerCase();
+            let dspReserva = ["Reservar cita", "Quisiera Reservar cita", "Quisiera Reservar una cita", "Reservar una cita", "Sacar una cita", "Quisiera Sacar cita", "Quisiera Sacar una cita", "Crear cita"];
+            let dspRePro = ["Reprogramar cita", "Quisiera Reprogramar cita", "Quisiera Reprogramar una cita", "Reprogramar una cita"];
+            let dspHist = ["Ver mi historial de citas", "historial de citas", "registro de citas", "Quiero ver mi historial de citas", "Quiero ver mis citas pasadas"];
+            let dspSaludo = ["Hola", "Buenos dias", "Buenas Tardes", "Buenas Noches", "Buenas", "Hi"];
+            let dspAgradecimiento = ["Gracias", "Muchas gracias", "Eh gracias"];
+            if (searchElement(text, dspSaludo)) {
+                addMsgBox("Hola, ¿En que puedo ayudarte hoy?", 0, "left");
+                return 0;
+            }
+            if (searchElement(text, dspReserva)) {
+                addMsgBox("Claro, ¿Deseas atenderte con algún médico o en una fecha en especial?", 0, "left");
+                activarTab(1)
+                return 0;
+            }
+            if (searchElement(text, dspRePro)) {
+                addMsgBox("Claro, ¿Que cita deseas reprogramar?", 0, "left");
+                addMsgBox("Dictame el codigo para llevarte a ella.", 0, "left");
+                activarTab(2)
+                return 0;
+            }
+            if (searchElement(text, dspHist)) {
+                addMsgBox("Claro, este es tu historial de citas ¿Deseas ver el detalle de alguna en particular?", 0, "left");
+                addMsgBox("Dictame el codigo para llevarte a ella.", 0, "left");
+                activarTab(3)
+                return 0;
+            }
+            if (searchElement(text, dspAgradecimiento)) {
+                addMsgBox("De nada, un gusto ayudarte", 0, "left");
+                return 0;
+            }
+            console.log(text)
+            if (text == 'quisiera sacar una cita con el doctor monrroy en la especialidad de traumatologia') {
+                let lstEsp = document.getElementById("lstEsp");
+                let lstDoc = document.getElementById("lstDoc");
+                lstEsp.value = 'TRAUMATOLOGIA';
+                lstDoc.value = 'Dr. Monrroy';
+                addMsgBox("Claro, a continuación te muestro las fechas más cercanas disponibles", 0, "left");
+                addMsgBox("Sábado 28, 07:30", 0, "left");
+                addMsgBox("Sábado 28, 09:00", 0, "left");
+                addMsgBox("¿Para cuando deseas reservar tu cita?", 0, "left");
+                return 0;
+            }
+
+            if (text == 'la primera fecha esta bien') {
+                let txtDate = document.getElementById("txtDate");
+                let lstHour = document.getElementById("lstHour");
+                txtDate.value = '2023-10-28';
+                lstHour.value = '07:30';
+                reservaCita()
+                return 0;
+            }
+
+            if (text == 'alo adrian herrera cou') {
+                addMsgBox("Hola brazos de 35, ¿En que puedo ayudarte hoy?", 0, "left");
+                addMsgBox("Que no sea en estetica porque ahi vas salir perdiendo maquina", 0, "left");
+                return 0;
+            }
+        }
+
+        function btnReprogramar_Click() {
+            let tabReprogramar1 = document.getElementById("tabReprogramar1");
+            let tabReprogramar2 = document.getElementById("tabReprogramar2");
+            tabReprogramar1.classList.add("visually-hidden");
+            tabReprogramar2.classList.remove("visually-hidden");
+        }
+
+        function reprogramarCita_Cancelar() {
+            let tabReprogramar1 = document.getElementById("tabReprogramar1");
+            let tabReprogramar2 = document.getElementById("tabReprogramar2");
+            tabReprogramar1.classList.remove("visually-hidden");
+            tabReprogramar2.classList.add("visually-hidden");
+        }
+
+        function btnVerDetalles_Historial_Click() {
+            let tabHistorial1 = document.getElementById("tabHistorial1");
+            let tabHistorial2 = document.getElementById("tabHistorial2");
+            tabHistorial1.classList.add("visually-hidden");
+            tabHistorial2.classList.remove("visually-hidden");
+        }
+        
+        function historialCita_Cancelar() {
+            let tabHistorial1 = document.getElementById("tabHistorial1");
+            let tabHistorial2 = document.getElementById("tabHistorial2");
+            tabHistorial1.classList.remove("visually-hidden");
+            tabHistorial2.classList.add("visually-hidden");
+        }
+
+        function btnReprogramarCancelar_Click(text = '') {
+            if (text == '') {
+                return 0;
+            }
+            row = document.getElementById(text)
+            row.classList.add("visually-hidden");
+        }
+
+        function updLinkColor(obj) {
+            textColor = "fw-bold"
+            lnkReserva = document.getElementById("lnkReserva");
+            lnkReprogramar = document.getElementById("lnkReprogramar")
+            lnkHistorial = document.getElementById("lnkHistorial")
+            tabReserva = document.getElementById("tabReserva");
+            tabReprogramar = document.getElementById("tabReprogramar");
+            tabHistorial = document.getElementById("tabHistorial");
+            tab_tittle = document.getElementById("tab_tittle");
+            lnkReserva.classList.remove(textColor)
+            lnkReprogramar.classList.remove(textColor)
+            lnkHistorial.classList.remove(textColor)
+
+            switch (obj.id) {
+                case "lnkReserva":
+                    {
+                        tabReserva.classList.remove("visually-hidden")
+                        tabReprogramar.classList.add("visually-hidden")
+                        tabHistorial.classList.add("visually-hidden")
+                        tab_tittle.innerHTML = "Reserva de Cita";
+                        break;
+                    }
+                case "lnkReprogramar":
+                    {
+                        tabReprogramar.classList.remove("visually-hidden")
+                        tabReserva.classList.add("visually-hidden")
+                        tabHistorial.classList.add("visually-hidden")
+                        tab_tittle.innerHTML = "Reprogramación de Cita";
+                        let tabReprogramar1 = document.getElementById("tabReprogramar1");
+                        let tabReprogramar2 = document.getElementById("tabReprogramar2");
+                        tabReprogramar1.classList.remove("visually-hidden");
+                        tabReprogramar2.classList.add("visually-hidden");
+                        break;
+                    }
+                case "lnkCancelar":
+                    {
+                        tabCancelar.classList.remove("visually-hidden")
+                        tabReprogramar.classList.add("visually-hidden")
+                        tabHistorial.classList.add("visually-hidden")
+                        tab_tittle.innerHTML = "Reserva de Cita";
+                        break;
+                    }
+                case "lnkHistorial":
+                    {
+                        tabHistorial.classList.remove("visually-hidden")
+                        tabReprogramar.classList.add("visually-hidden")
+                        tabReserva.classList.add("visually-hidden")
+                        tab_tittle.innerHTML = "Historial de Citas";
+                        break;
+                    }
+                default:
+                    console.log("ERROR")
+                    break;
+            }
+
+            obj.classList.add(textColor);
+        }
+
+        let is_VoiceOn = false;
+
+        function speechText(text = '') {
+            if (text == '') {
+                return 0;
+            }
+            const utterance = new SpeechSynthesisUtterance();
+            utterance.lang = "es-ES";
+            utterance.voice = speechSynthesis.getVoices()[0];
+            utterance.volume = 1;
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.text = text;
+            speechSynthesis.speak(utterance);
+        }
+
+        (() => {
+            if ("webkitSpeechRecognition" in window) {
+                let speechRecognition = new webkitSpeechRecognition();
+
+                let final_transcript = "";
+
+                speechRecognition.continuous = true;
+                speechRecognition.interimResults = true;
+                speechRecognition.lang = 'es-PE';
+
+                speechRecognition.onstart = () => {
+                    is_VoiceOn = true;
+                    console.log("Speech Recognition Started")
+                };
+                speechRecognition.onerror = () => {
+                    console.log("Speech Recognition Error")
+                };
+                speechRecognition.onend = () => {
+                    is_VoiceOn = false;
+                    console.log("Speech Recognition Stopped")
+                };
+
+                speechRecognition.onresult = (event) => {
+                    let interim_transcript = "";
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            final_transcript += event.results[i][0].transcript;
+                        } else {
+                            interim_transcript += event.results[i][0].transcript;
+                        }
+                    }
+                    console.log(final_transcript);
+                    addMsgBox(final_transcript, 0, 'right', 'text');
+                    respuestaIA(final_transcript);
+                    final_transcript = ''
+                };
+                document.onkeydown = (e) => {
+                    if (e.repeat) {
+                        return 0;
+                    }
+                    console.log(e);
+                    if (e.code == 'ControlLeft') {
+                        speechRecognition.start();
+                        final_transcript = ''
+                    }
+                }
+                document.addEventListener("keyup", (e) => {
+                    console.log(e);
+                    console.log(final_transcript);
+                    if (e.code == 'ControlLeft') {
+                        speechRecognition.stop();
+                        final_transcript = ''
+                        return;
+                    }
+                });
+                document.querySelector("#btnVoice").onclick = () => {
+                    if (is_VoiceOn) {
+                        is_VoiceOn = false;
+                        speechRecognition.stop();
+                        addMsgBox(final_transcript, 0, 'right', 'text');
+                        respuestaIA(final_transcript);
+                        final_transcript = ''
+                        return;
+                    }
+                    speechRecognition.start();
+                    is_VoiceOn = true;
+                    final_transcript = ''
+                };
+                //txtMsg.addEventListener("keydown", (e) => {
+                //    if (e.code == "Enter") {
+                //        btnSend_Click();
+                //})
+            } else {
+                console.log("Speech Recognition Not Available")
+
+            }
+        })();
+
+    </script>
+}
 
 <script src="~/js/site.js" asp-append-version="true"></script>

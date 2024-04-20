@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReservaCitasV2.DAO;
 using ReservaCitasV2.Data;
 using ReservaCitasV2.Models;
+using ReservaCitasV2.Models.CitasEntities;
 using ReservaCitasV2.Models.Login;
 using System.Diagnostics;
 
@@ -20,20 +21,25 @@ namespace ReservaCitasV2.Controllers
 
         public IActionResult Home()
         {
-            model.Usuario = ObtenerUsuario(int.Parse(Request.Cookies["IdUsuario"]));
+            int IdUsuario = int.Parse(Request.Cookies["IdUsuario"]);
+
+            model.Usuario = loginDao.ObtenerUsuario(IdUsuario);
 
             model.lstDoctor = loginDao.DoctoresListar();
 
             model.lstEspecialidad = loginDao.EspecialidadListar();
 
+            model.lstLocal = loginDao.LocalListar();
 
-            AddHora(1, "07:00");
-            AddHora(2, "07:30");
-            AddHora(3, "08:00");
-            AddHora(4, "08:30");
-            AddHora(5, "09:00");
-            AddHora(6, "09:30");
-            AddHora(7, "10:00");
+            model.lstHora = [
+                new Hora { Id = 1, Name = "07:00" },
+                new Hora { Id = 2, Name = "07:30" },
+                new Hora { Id = 2, Name = "08:00" },
+                new Hora { Id = 2, Name = "08:30" },
+                new Hora { Id = 2, Name = "09:00" },
+                new Hora { Id = 2, Name = "09:30" },
+                new Hora { Id = 2, Name = "10:00" },
+            ];
 
             AddCita(1, 2, 3, 9, 4, "ATENCION AMBULATORIA");
             AddCita(2, 1, 4, 9, 4, "ATENCION AMBULATORIA");
@@ -72,16 +78,50 @@ namespace ReservaCitasV2.Controllers
         }
 
         [HttpGet]
+        public bool LogOut()
+        {
+            Response.Cookies.Delete("IdUsuario");
+
+            return true;
+        }
+
+        [HttpGet]
         public Paciente ObtenerUsuario([FromQuery] int? IdUsuario)
         {
             return loginDao.ObtenerUsuario(IdUsuario);
         }
 
-        private void AddHora(int id, string name)
+        [HttpPost]
+        public GeneralResponse CitaRegistrar([FromBody] CitaCrearRequest request)
         {
-            var e = new Hora { Id = id, Name = name };
-            model.lstHora.Add(e);
+
+            GeneralResponse response = new();
+
+            try
+            {
+                var sucess = loginDao.CitaRegistrar(request);
+
+                if (sucess)
+                {
+                    response.Estado = true;
+                    response.Mensaje = "Proceso Exitoso";
+                }
+                else
+                {
+                    response.Estado = false;
+                    response.Mensaje = "Sucedio un error al crear la cita";
+                }
+
+            }
+            catch(Exception ex)
+            {
+                response.Estado = false;
+                response.Mensaje = ex.Message;
+            }
+
+            return response;
         }
+
         private void AddCita(int id, int idDoctor, int idDia, int idMes, int idHora, string comentario)
         {
             var doc = model.lstDoctor.FirstOrDefault(u => u.Id == idDoctor) ?? throw new Exception("Sin Médico");
