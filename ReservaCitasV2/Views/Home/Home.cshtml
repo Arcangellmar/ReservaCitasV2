@@ -301,7 +301,7 @@
                             <h4>Citas Programadas</h4>
                             <div class="col-4">
                                 <label for="txtBuscarProgramadas" class="form-label fw-bold">Buscar:</label>
-                                <input class="form-control" list="dtlProgramadas" id="txtBuscarProgramadas" placeholder="Buscar..." oninput="BuscarCita('tblProgramadas', this)">
+                                <input class="form-control" list="dtlProgramadas" id="txtBuscarProgramadas" placeholder="Buscar..." oninput="BuscarCita('tblProgramadas', 'txtBuscarProgramadas')">
                                 <datalist id="dtlProgramadas">
                                     @{
                                         string srchPro_Fecha = string.Empty;
@@ -481,7 +481,7 @@
                         <div class="row mb-3">
                             <div class="col-4">
                                 <label for="txtBuscar" class="form-label fw-bold">Buscar:</label>
-                                <input class="form-control" list="dtlHistorial" id="txtBuscar" placeholder="Buscar..." oninput="BuscarCita('tblHistorial', this)">
+                                <input class="form-control" list="dtlHistorial" id="txtBuscar" placeholder="Buscar..." oninput="BuscarCita('tblHistorial', 'txtBuscar')">
                                 <datalist id="dtlHistorial">
                                     @{
                                         string srchFecha = string.Empty;
@@ -590,6 +590,7 @@
 
         var IdCitaGlobal = null;
         var IdUsuario = "@Model.Usuario.IdUsuario";
+        var ListaCitasProgramadas = @Html.Raw(Json.Serialize(Model.lstCitaProgramada));
 
         function logout() {
 
@@ -925,8 +926,8 @@
 
         }
 
-        function BuscarCita(tabla, input) {
-            txtBuscar = document.getElementById(input.id);
+        function BuscarCita(tabla, Id) {
+            txtBuscar = document.getElementById(Id);
             var table = document.getElementById(tabla);
             for (let row of table.getElementsByTagName("tr")) {
                 for (let cell of row.getElementsByTagName("td")) {
@@ -1030,7 +1031,7 @@
                 return 0;
             }
             if (searchElement(text, dspReserva)) {
-                addMsgBox("Claro, ¿Deseas atenderte con algún médico o en una fecha en especial?", 0, "left");
+                addMsgBox("Claro, ¿Deseas atenderte con algún médico o en una fecha en especial? escriba 'doctor y nombre del doctor'", 0, "left");
                 activarTab(1)
                 return 0;
             }
@@ -1050,31 +1051,177 @@
                 addMsgBox("De nada, un gusto ayudarte", 0, "left");
                 return 0;
             }
-            console.log(text)
-            if (text == 'quisiera sacar una cita con el doctor monrroy en la especialidad de traumatologia') {
-                let lstEsp = document.getElementById("lstEsp");
-                let lstDoc = document.getElementById("lstDoc");
-                lstEsp.value = 'TRAUMATOLOGIA';
-                lstDoc.value = 'Dr. Monrroy';
-                addMsgBox("Claro, a continuación te muestro las fechas más cercanas disponibles", 0, "left");
-                addMsgBox("Sábado 28, 07:30", 0, "left");
-                addMsgBox("Sábado 28, 09:00", 0, "left");
-                addMsgBox("¿Para cuando deseas reservar tu cita?", 0, "left");
+            
+            console.log(text);
+
+            // Select doctores
+            if (text == 'doctor monrroy') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. Monrroy";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
+                return 0;
+            }
+            if (text == 'doctor garcia') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. Garcia";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
+                return 0;
+            }
+            if (text == 'doctor gareca') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. Gareca";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
+                return 0;
+            }
+            if (text == 'doctor milos') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. Milos";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
+                return 0;
+            }
+            if (text == 'doctor maria') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. María";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
+                return 0;
+            }
+            if (text == 'doctor jose') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. Jose";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
                 return 0;
             }
 
-            if (text == 'la primera fecha esta bien') {
-                let txtDate = document.getElementById("txtDate");
-                let lstHour = document.getElementById("lstHour");
-                txtDate.value = '2023-10-28';
-                lstHour.value = '07:30';
-                reservaCita()
+            // Especialidad
+            if (text == 'especialidad traumatologia') {
+
+                $("#lstEsp").val($("#lstEsp option").filter(function () {
+                    return $(this).text() == "TRAUMATOLOGIA";
+                }).val());
+
+                addMsgBox("¿Con que local seria la cita? escriba 'local y nombre del local'", 0, "left");
                 return 0;
             }
+
+            // Local
+            if (text == 'local principal') {
+
+                $("#local").val($("#local option").filter(function () {
+                    return $(this).text() == "Local Principal";
+                }).val());
+
+                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia/mes/año hora:minuto", 0, "left");
+                return 0;
+            }
+            if (text == 'local rambla') {
+
+                $("#local").val($("#local option").filter(function () {
+                    return $(this).text() == "Local Rambla";
+                }).val());
+
+                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia/mes/año hora:minuto", 0, "left");
+                return 0;
+            }
+
+            // fecha y hora
+
+            var regex = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})$/;
+            var match = text.match(regex);
+
+
+            if (match) {
+
+                $("#txtDate").val(match[3] + "-" + match[2] + "-" + match[1]);
+                $("#lstHour").val(match[4] + ":" + match[5]);
+
+                addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
+                return 0;
+            }
+
+            if (text == "confirmar"){
+                reservaCita();
+                return 0;
+            }
+
+
 
             if (text == 'alo adrian herrera cou') {
                 addMsgBox("Hola brazos de 35, ¿En que puedo ayudarte hoy?", 0, "left");
                 addMsgBox("Que no sea en estetica porque ahi vas salir perdiendo maquina", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reservar cita medica') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reservar una cita') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a citas programadas') {
+                $("#lnkReprogramar").click();
+                addMsgBox("Redirigiendo a citas programadas", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a historial de citas') {
+                $("#lnkHistorial").click();
+                addMsgBox("Redirigiendo a historial de citas", 0, "left");
+                return 0;
+            }
+            if (text == 'quiero salir del aplicativo') {
+                addMsgBox("Saliendo del aplicativo", 0, "left");
+                logout();
+                return 0;
+            }
+            if (text == "busca mis citas de traumatologia") {
+                $("#lnkReprogramar").click();
+                addMsgBox("Buscando citas de traumatologia", 0, "left");
+                $("#txtBuscarProgramadas").val("traumatologia");
+                BuscarCita('tblProgramadas', 'txtBuscarProgramadas');
+                return 0;
+            }
+            if (text == "busca mis citas con el doctor monrroy") {
+                $("#lnkReprogramar").click();
+                addMsgBox("Buscando citas con el doctor Monrroy", 0, "left");
+                $("#txtBuscarProgramadas").val("monrroy");
+                BuscarCita('tblProgramadas', 'txtBuscarProgramadas');
+                return 0;
+            }
+            if (text == "quiero cancelar la ultima cita medica programada") {
+
+                if (ListaCitasProgramadas.length != 0) {
+
+                    btnReprogramarCancelar_Click('row_reprogramar_' + ListaCitasProgramadas[0].id, ListaCitasProgramadas[0].id);
+
+                    ListaCitasProgramadas.splice(0, 1);
+
+                    addMsgBox("Se elimino la ultima cita programada", 0, "left");
+
+                }
+                else {
+                    addMsgBox("No tiene citas medicas por cancelar", 0, "left");
+                }
+
                 return 0;
             }
 
