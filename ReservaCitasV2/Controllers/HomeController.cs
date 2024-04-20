@@ -10,7 +10,6 @@ namespace ReservaCitasV2.Controllers
 {
     public class HomeController : Controller
     {
-        HomeModel model = new();
 
         readonly DaoClass loginDao = new();
 
@@ -21,35 +20,40 @@ namespace ReservaCitasV2.Controllers
 
         public IActionResult Home()
         {
-            int IdUsuario = int.Parse(Request.Cookies["IdUsuario"]);
+            try
+            {
 
-            model.Usuario = loginDao.ObtenerUsuario(IdUsuario);
+                HomeModel model = new();
 
-            model.lstDoctor = loginDao.DoctoresListar();
+                int IdUsuario = int.Parse(Request.Cookies["IdUsuario"]);
 
-            model.lstEspecialidad = loginDao.EspecialidadListar();
+                model.Usuario = loginDao.ObtenerUsuario(IdUsuario);
 
-            model.lstLocal = loginDao.LocalListar();
+                model.lstDoctor = loginDao.DoctoresListar();
 
-            model.lstHora = [
-                new Hora { Id = 1, Name = "07:00" },
-                new Hora { Id = 2, Name = "07:30" },
-                new Hora { Id = 2, Name = "08:00" },
-                new Hora { Id = 2, Name = "08:30" },
-                new Hora { Id = 2, Name = "09:00" },
-                new Hora { Id = 2, Name = "09:30" },
-                new Hora { Id = 2, Name = "10:00" },
-            ];
+                model.lstEspecialidad = loginDao.EspecialidadListar();
 
-            AddCita(1, 2, 3, 9, 4, "ATENCION AMBULATORIA");
-            AddCita(2, 1, 4, 9, 4, "ATENCION AMBULATORIA");
-            AddCita(3, 2, 11, 9, 4, "ATENCION AMBULATORIA");
-            AddCita(4, 3, 13, 9, 4, "ATENCION AMBULATORIA");
-            AddCita(5, 1, 16, 9, 4, "ATENCION AMBULATORIA");
-            AddCitaProgramada(1, 1, 28, 10, 1, "");
-            AddCitaProgramada(2, 3, 30, 10, 2, "");
+                model.lstLocal = loginDao.LocalListar();
 
-            return View(model);
+                model.lstHora = [
+                    new Hora { Id = 1, Name = "07:00" },
+                    new Hora { Id = 2, Name = "07:30" },
+                    new Hora { Id = 2, Name = "08:00" },
+                    new Hora { Id = 2, Name = "08:30" },
+                    new Hora { Id = 2, Name = "09:00" },
+                    new Hora { Id = 2, Name = "09:30" },
+                    new Hora { Id = 2, Name = "10:00" },
+                ];
+
+                model.lstCita = loginDao.CitaListar();
+                model.lstCitaProgramada = loginDao.CitaListarProgramada();
+
+                return View(model);
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         public IActionResult Privacy()
@@ -122,36 +126,66 @@ namespace ReservaCitasV2.Controllers
             return response;
         }
 
-        private void AddCita(int id, int idDoctor, int idDia, int idMes, int idHora, string comentario)
+        [HttpDelete]
+        public GeneralResponse CitaCancelar([FromQuery] int? IdCita)
         {
-            var doc = model.lstDoctor.FirstOrDefault(u => u.Id == idDoctor) ?? throw new Exception("Sin Médico");
-            var e = new Cita()
+
+            GeneralResponse response = new();
+
+            try
             {
-                Id = id,
-                IdDoctor = idDoctor,
-                Doctor = doc,
-                IdDia = idDia,
-                IdMes = idMes,
-                IdHora = idHora,
-                Comentario = comentario,
-            };
-            model.lstCita.Add(e);
-        }
-        private void AddCitaProgramada(int id, int idDoctor, int idDia, int idMes, int idHora, string comentario)
-        {
-            var doc = model.lstDoctor.FirstOrDefault(u => u.Id == idDoctor) ?? throw new Exception("Sin Médico");
-            var e = new Cita()
+                var sucess = loginDao.CitaCancelar(IdCita);
+
+                if (sucess)
+                {
+                    response.Estado = true;
+                    response.Mensaje = "Proceso Exitoso";
+                }
+                else
+                {
+                    response.Estado = false;
+                    response.Mensaje = "Sucedio un error al eliminar la cita";
+                }
+
+            }
+            catch (Exception ex)
             {
-                Id = id,
-                IdDoctor = idDoctor,
-                Doctor = doc,
-                IdDia = idDia,
-                IdMes = idMes,
-                IdHora = idHora,
-                Comentario = comentario,
-            };
-            model.lstCitaProgramada.Add(e);
+                response.Estado = false;
+                response.Mensaje = ex.Message;
+            }
+
+            return response;
         }
 
+        [HttpPost]
+        public GeneralResponse CitaReprogramar([FromBody] CitaReprogramarRequest request)
+        {
+
+            GeneralResponse response = new();
+
+            try
+            {
+                var sucess = loginDao.CitaReprogramar(request);
+
+                if (sucess)
+                {
+                    response.Estado = true;
+                    response.Mensaje = "Proceso Exitoso";
+                }
+                else
+                {
+                    response.Estado = false;
+                    response.Mensaje = "Sucedio un error al reprogramar la cita";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Estado = false;
+                response.Mensaje = ex.Message;
+            }
+
+            return response;
+        }
     }
 }

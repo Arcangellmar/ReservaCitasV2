@@ -3,13 +3,13 @@
     public class Cita
     {
         public int Id { get; set; }
-        public int IdDoctor { get; set; }
-        public Doctor Doctor { get; set; } = new();
-        public int IdPaciente { get; set; }
-        //public Paciente Paciente { get; set; } = new();
-        public int IdDia { get; set; }
-        public int IdMes { get; set; }
-        public int IdHora { get; set; }
-        public string Comentario { get; set; } = string.Empty;
+        //public Doctor Doctor { get; set; } = new();
+        public string? NombreDoctor { get; set; }
+        public string? EspecialidadDoctor { get; set; }
+        //public int IdDia { get; set; }
+        //public int IdMes { get; set; }
+        public string? Fecha { get; set; }
+        public string? Hora { get; set; }
+        //public int IdHora { get; set; }
     }
 }

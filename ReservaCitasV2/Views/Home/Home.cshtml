@@ -1,12 +1,7 @@
 ﻿@model ReservaCitasV2.Models.HomeModel
 @{
     ViewData["Title"] = "CitasAPP";
-    // List<string> Seguros = new List<string>()
-    // {
-    //     "PACIFICO EPS",
-    //     "EPS SANITAS",
-    //     "RIMAC SEGUROS",
-    // };
+
     string[] Dias = { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes" };
     string[] Meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre" };
     // string Name = Model.Paciente.Name.ToUpper();
@@ -269,7 +264,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="txtDateReprogramar" class="form-label fw-bold">Fecha:</label>
-                                            <input type="date" min="@today" max="@endMonth" value="2023-10-28" class="form-control" id="txtDateReprogramar" required="">
+                                            <input type="date" min="@today" max="@endMonth" class="form-control" id="txtDateReprogramar" required="">
                                             <div class="invalid-feedback">Rellena este campo</div>
                                         </div>
                                     </div>
@@ -314,12 +309,10 @@
                                         string srchPro_Medico = string.Empty;
                                         foreach (var i in Model.lstCitaProgramada)
                                         {
-                                            string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                            string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                            string hora = Model.lstHora[i.IdHora].Name;
-                                            srchPro_Fecha = $"{dia}/{mes}/2023 - {hora}";
-                                            srchPro_Especialidad = i.Doctor.NombreEspecialidad;
-                                            srchPro_Medico = i.Doctor.Name;
+                                            string hora = i.Hora;
+                                            srchPro_Fecha = $"{i.Fecha} - {hora}";
+                                            srchPro_Especialidad = i.EspecialidadDoctor;
+                                            srchPro_Medico = i.NombreDoctor;
                                             <option value="@srchPro_Fecha"></option>
                                             <option value="@srchPro_Especialidad"></option>
                                             <option value="@srchPro_Medico"></option>
@@ -348,21 +341,19 @@
                                             foreach (var i in Model.lstCitaProgramada)
                                             {
                                                 // reproFecha = string.Join(i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString(), "/", i.IdMes, "/2023", " - ");
-                                                string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                                string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                                string hora = Model.lstHora[i.IdHora].Name;
-                                                reproFecha = $"{dia}/{mes}/2023 - {hora}";
-                                                reproEspecialidad = i.Doctor.NombreEspecialidad;
-                                                reproMedico = i.Doctor.Name;
+                                                string hora = i.Hora;
+                                                reproFecha = $"{i.Fecha} - {hora}";
+                                                reproEspecialidad = i.EspecialidadDoctor;
+                                                reproMedico = i.NombreDoctor;
                                                 <tr class="text-center" id="row_reprogramar_@i.Id">
                                                     <td class="text-nowrap">@reproFecha</td>
                                                     <td class="text-wrap">@reproEspecialidad</td>
                                                     <td class="text-wrap">@reproMedico</td>
                                                     <td class="text-nowrap col-1">
-                                                        <button type="button" id="btnReprogramar" onclick="btnReprogramar_Click()" class="btn btn-primary" style="width: 150px" role="button">Reprogramar</button>
+                                                        <button type="button" id="btnReprogramar" onclick="btnReprogramar_Click(@i.Id)" class="btn btn-primary" style="width: 150px" role="button">Reprogramar</button>
                                                     </td>
                                                     <td class="text-nowrap col-1">
-                                                        <button type="button" id="btnReprogramarCancelar" onclick="btnReprogramarCancelar_Click('row_reprogramar_@i.Id')" class="btn btn-danger" style="width: 150px" role="button">Cancelar Cita</button>
+                                                        <button type="button" id="btnReprogramarCancelar" onclick="btnReprogramarCancelar_Click('row_reprogramar_@i.Id', @i.Id)" class="btn btn-danger" style="width: 150px" role="button">Cancelar Cita</button>
                                                     </td>
                                                 </tr>
                                             }
@@ -498,12 +489,10 @@
                                         string srchMedico = string.Empty;
                                         foreach (var i in Model.lstCita)
                                         {
-                                            string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                            string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                            string hora = Model.lstHora[i.IdHora].Name;
-                                            srchFecha = $"{dia}/{mes}/2023 - {hora}";
-                                            srchEspecialidad = i.Doctor.NombreEspecialidad;
-                                            srchMedico = i.Doctor.Name;
+                                            string hora = i.Hora;
+                                            srchFecha = $"{i.Fecha} - {hora}";
+                                            srchEspecialidad = i.EspecialidadDoctor;
+                                            srchMedico = i.NombreDoctor;
                                             <option value="@srchFecha"></option>
                                             <option value="@srchEspecialidad"></option>
                                             <option value="@srchMedico"></option>
@@ -532,12 +521,10 @@
                                             foreach (var i in Model.lstCita)
                                             {
                                                 // histFecha = string.Join(i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString(), "/", i.IdMes, "/2023", " - ");
-                                                string dia = i.IdDia < 10 ? i.IdDia.ToString().Insert(0, "0") : i.IdDia.ToString();
-                                                string mes = i.IdMes < 10 ? i.IdMes.ToString().Insert(0, "0") : i.IdMes.ToString();
-                                                string hora = Model.lstHora[i.IdHora].Name;
-                                                histFecha = $"{dia}/{mes}/2023 - {hora}";
-                                                histEspecialidad = i.Doctor.NombreEspecialidad;
-                                                histMedico = i.Doctor.Name;
+                                                string hora =i.Hora;
+                                                histFecha = $"{i.Fecha} - {hora}";
+                                                histEspecialidad = i.EspecialidadDoctor;
+                                                histMedico = i.NombreDoctor;
                                                 <tr class="text-center">
                                                     <td class="text-nowrap">@histFecha</td>
                                                     <td class="text-wrap">@histEspecialidad</td>
@@ -601,6 +588,7 @@
 @section Scripts {
     <script>
 
+        var IdCitaGlobal = null;
         var IdUsuario = "@Model.Usuario.IdUsuario";
 
         function logout() {
@@ -657,15 +645,17 @@
             let pacienteNombre = document.getElementById("pacienteNombre");
             let pacienteSeguro = document.getElementById("pacienteSeguro");
 
-            let lstEsp = document.getElementById("lstEsp");
-            let lstDoc = document.getElementById("lstDoc");
+            // let lstEsp = document.getElementById("lstEsp");
+            let lstEsp = $("#lstEsp option:selected").text();
+            // let lstDoc = document.getElementById("lstDoc");
+            let lstDoc = $("#lstDoc option:selected").text();
             let txtDate = document.getElementById("txtDate");
             let lstHour = document.getElementById("lstHour");
             let local = $('#local').val();
             let fecha = `${txtDate.value.split('-')[2]}/${txtDate.value.split('-')[1]}/${txtDate.value.split("-")[0]}`
             let failed = false;
-            if (lstEsp.value == '-1') failed = true;
-            if (lstDoc.value == '-1') failed = true;
+            if (lstEsp == '-1') failed = true;
+            if (lstDoc == '-1') failed = true;
             if (lstHour.value == '-1') failed = true;
             if (failed) {
                 let type = 'error';
@@ -674,100 +664,109 @@
                 return false;
             }
 
+            let IdDoctor = $("#lstDoc").val();
+            let Fecha = $("#txtDate").val();
+            let Hora = $("#lstHour").val();
+            let IdLocal = $("#local").val();
+            let IdEspecialidad = $("#lstEsp").val();
+
             $.ajax({
                 url: '@Url.Action("CitaRegistrar", "Home")',
                 type: 'POST',
                 contentType: "application/json",
                 data: JSON.stringify({
-                    IdDoctor: 1,
-                    IdPaciente: 1,
-                    Fecha: "",
-                    Hora: "",
-                    IdLocal: 1,
-                    IdEspecialidad: 1
+                    IdDoctor: parseInt(IdDoctor),
+                    IdPaciente: IdUsuario,
+                    Fecha: Fecha,
+                    Hora: Hora,
+                    IdLocal: parseInt(IdLocal),
+                    IdEspecialidad: parseInt(IdEspecialidad),
                 }),
                 success: function (result) {
-                    console.log(result);
 
-                    debugger;
+                    if (result.estado == true) {
+                        let type = 'success';
+                        let title = '¡Reserva generada con exito!';
+                        head_class = 'text-start text-nowrap'
+                        value_class = 'text-start text-nowrap'
+                        let msg = `
+                                <div class="container w-75">
+                                <table class="table align-middle">
+                                    <tbody>
+                                        <tr>
+                                            <td class="${head_class}">Paciente</td>
+                                            <td class="${value_class}">${pacienteNombre.innerText}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Seguro</td>
+                                            <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Especialidad</td>
+                                            <td class="${value_class}">${lstEsp}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Doctor</td>
+                                            <td class="${value_class}">${lstDoc}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Fecha</td>
+                                            <td class="${value_class}">${fecha}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Hora</td>
+                                            <td class="${value_class}">${lstHour.value}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                                `;
+
+                        let msg_IA = `
+                                <p class="text-white m-0 ps-2 pe-3 mb-1 text-wrap text-break">DATOS DE LA CITA</p>
+                                <table class="table align-middle">
+                                    <tbody>
+                                        <tr>
+                                            <td class="${head_class}">Paciente</td>
+                                            <td class="${value_class}">${pacienteNombre.innerText}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Seguro</td>
+                                            <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Especialidad</td>
+                                            <td class="${value_class}">${lstEsp}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Doctor</td>
+                                            <td class="${value_class}">${lstDoc}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Fecha</td>
+                                            <td class="${value_class}">${fecha}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="${head_class}">Hora</td>
+                                            <td class="${value_class}">${lstHour.value}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                `;
+                        alert(type, title, msg);
+                        addMsgBox("Perfecto, se ha generado la reserva con éxito.", 0, "left");
+                        addMsgBox(msg_IA, 0, 'left', 'table');
+                        addMsgBox("Recuerda asistir 30 minutos antes para realizar el pago de tu cita.", 0, "left");
+                        let lnkReprogramar = document.getElementById("lnkReprogramar");
+                        lnkReprogramar.click();
+                        let btnReprogramar_Cancelar = document.getElementById("btnReprogramar_Cancelar");
+                        btnReprogramar_Cancelar.click();
+                    }
+                    else  {
+                        alert("error", result.mensaje, "");
+                    }
 
 
-                    let type = 'success';
-                    let title = '¡Reserva generada con exito!';
-                    head_class = 'text-start text-nowrap'
-                    value_class = 'text-start text-nowrap'
-                    let msg = `
-                        <div class="container w-75">
-                        <table class="table align-middle">
-                            <tbody>
-                                <tr>
-                                    <td class="${head_class}">Paciente</td>
-                                    <td class="${value_class}">${pacienteNombre.innerText}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Seguro</td>
-                                    <td class="${value_class}">${pacienteSeguro.innerText}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Especialidad</td>
-                                    <td class="${value_class}">${lstEsp.value}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Doctor</td>
-                                    <td class="${value_class}">${lstDoc.value}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Fecha</td>
-                                    <td class="${value_class}">${fecha}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Hora</td>
-                                    <td class="${value_class}">${lstHour.value}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                        `;
-
-                    let msg_IA = `
-                        <p class="text-white m-0 ps-2 pe-3 mb-1 text-wrap text-break">DATOS DE LA CITA</p>
-                        <table class="table align-middle">
-                            <tbody>
-                                <tr>
-                                    <td class="${head_class}">Paciente</td>
-                                    <td class="${value_class}">${pacienteNombre.innerText}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Seguro</td>
-                                    <td class="${value_class}">${pacienteSeguro.innerText}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Especialidad</td>
-                                    <td class="${value_class}">${lstEsp.value}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Doctor</td>
-                                    <td class="${value_class}">${lstDoc.value}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Fecha</td>
-                                    <td class="${value_class}">${fecha}</td>
-                                </tr>
-                                <tr>
-                                    <td class="${head_class}">Hora</td>
-                                    <td class="${value_class}">${lstHour.value}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        `;
-                    alert(type, title, msg);
-                    addMsgBox("Perfecto, se ha generado la reserva con éxito.", 0, "left");
-                    addMsgBox(msg_IA, 0, 'left', 'table');
-                    addMsgBox("Recuerda asistir 30 minutos antes para realizar el pago de tu cita.", 0, "left");
-                    let lnkReprogramar = document.getElementById("lnkReprogramar");
-                    lnkReprogramar.click();
-                    let btnReprogramar_Cancelar = document.getElementById("btnReprogramar_Cancelar");
-                    btnReprogramar_Cancelar.click();
 
                 },
                 error: function (xhr, status, error) {
@@ -820,79 +819,110 @@
                 alert(type, title);
                 return false;
             }
-            let type = 'success';
-            let title = '¡Cita reprogramada con exito!';
-            head_class = 'text-start text-nowrap'
-            value_class = 'text-start text-nowrap'
-            let msg = `
-            <div class="container w-75">
-            <table class="table align-middle">
-                <tbody>
-                    <tr>
-                        <td class="${head_class}">Paciente</td>
-                        <td class="${value_class}">${pacienteNombre.innerText}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Seguro</td>
-                        <td class="${value_class}">${pacienteSeguro.innerText}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Especialidad</td>
-                        <td class="${value_class}">${lstEsp.value}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Doctor</td>
-                        <td class="${value_class}">${lstDoc.value}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Fecha</td>
-                        <td class="${value_class}">${fecha}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Hora</td>
-                        <td class="${value_class}">${lstHour.value}</td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            `;
 
-            let msg_IA = `
-            <p class="text-white m-0 ps-2 pe-3 mb-1 text-wrap text-break">NUEVOS DATOS DE LA CITA</p>
-            <table class="table align-middle">
-                <tbody>
-                    <tr>
-                        <td class="${head_class}">Paciente</td>
-                        <td class="${value_class}">${pacienteNombre.innerText}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Seguro</td>
-                        <td class="${value_class}">${pacienteSeguro.innerText}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Especialidad</td>
-                        <td class="${value_class}">${lstEsp.value}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Doctor</td>
-                        <td class="${value_class}">${lstDoc.value}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Fecha</td>
-                        <td class="${value_class}">${fecha}</td>
-                    </tr>
-                    <tr>
-                        <td class="${head_class}">Hora</td>
-                        <td class="${value_class}">${lstHour.value}</td>
-                    </tr>
-                </tbody>
-            </table>
-            `;
-            alert(type, title, msg);
-            addMsgBox(msg_IA, 0, 'left', 'table');
-            let btnReprogramar_Cancelar = document.getElementById("btnReprogramar_Cancelar");
-            btnReprogramar_Cancelar.click();
-            return true;
+            let Fecha = $("#txtDateReprogramar").val();
+            let Hora = $("#lstHourReprogramar").val();
+
+            $.ajax({
+                url: '@Url.Action("CitaReprogramar", "Home")',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    IdCita: parseInt(IdCitaGlobal),
+                    Fecha: Fecha,
+                    Hora: Hora,
+                }),
+                success: function (result) {
+
+                    if (result.estado == true) {
+
+                        let type = 'success';
+                        let title = '¡Cita reprogramada con exito!';
+                        head_class = 'text-start text-nowrap'
+                        value_class = 'text-start text-nowrap'
+                        let msg = `
+                            <div class="container w-75">
+                            <table class="table align-middle">
+                                <tbody>
+                                    <tr>
+                                        <td class="${head_class}">Paciente</td>
+                                        <td class="${value_class}">${pacienteNombre.innerText}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Seguro</td>
+                                        <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Especialidad</td>
+                                        <td class="${value_class}">${lstEsp.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Doctor</td>
+                                        <td class="${value_class}">${lstDoc.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Fecha</td>
+                                        <td class="${value_class}">${fecha}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Hora</td>
+                                        <td class="${value_class}">${lstHour.value}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                            `;
+
+                        let msg_IA = `
+                            <p class="text-white m-0 ps-2 pe-3 mb-1 text-wrap text-break">NUEVOS DATOS DE LA CITA</p>
+                            <table class="table align-middle">
+                                <tbody>
+                                    <tr>
+                                        <td class="${head_class}">Paciente</td>
+                                        <td class="${value_class}">${pacienteNombre.innerText}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Seguro</td>
+                                        <td class="${value_class}">${pacienteSeguro.innerText}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Especialidad</td>
+                                        <td class="${value_class}">${lstEsp.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Doctor</td>
+                                        <td class="${value_class}">${lstDoc.value}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Fecha</td>
+                                        <td class="${value_class}">${fecha}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="${head_class}">Hora</td>
+                                        <td class="${value_class}">${lstHour.value}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            `;
+                        alert(type, title, msg);
+                        addMsgBox(msg_IA, 0, 'left', 'table');
+                        let btnReprogramar_Cancelar = document.getElementById("btnReprogramar_Cancelar");
+                        btnReprogramar_Cancelar.click();
+
+                        // Actualiza el row
+                        $("#row_reprogramar_" + IdCitaGlobal).children().first().text(Fecha + " - " + Hora);
+
+                    }
+                    else {
+                        alert("error", result.mensaje, "");
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error al llamar a MiMetodo");
+                }
+            });
+
         }
 
         function BuscarCita(tabla, input) {
@@ -1047,9 +1077,14 @@
                 addMsgBox("Que no sea en estetica porque ahi vas salir perdiendo maquina", 0, "left");
                 return 0;
             }
+
+            // Si no entiende ninguna opcion
+            addMsgBox("Lo siento, no entiendo lo que me dices", 0, "left");
+
         }
 
-        function btnReprogramar_Click() {
+        function btnReprogramar_Click(IdCita) {
+            IdCitaGlobal = IdCita;
             let tabReprogramar1 = document.getElementById("tabReprogramar1");
             let tabReprogramar2 = document.getElementById("tabReprogramar2");
             tabReprogramar1.classList.add("visually-hidden");
@@ -1077,12 +1112,34 @@
             tabHistorial2.classList.add("visually-hidden");
         }
 
-        function btnReprogramarCancelar_Click(text = '') {
+        function btnReprogramarCancelar_Click(text = '', IdCita) {
+
+            console.log(IdCita);
+
             if (text == '') {
                 return 0;
             }
-            row = document.getElementById(text)
-            row.classList.add("visually-hidden");
+
+            $.ajax({
+                url: '@Url.Action("CitaCancelar", "Home")?IdCita=' + IdCita,
+                type: 'DELETE',
+                contentType: "application/json",
+                success: function (result) {
+
+                    if (result.estado == true) {
+                        row = document.getElementById(text)
+                        row.classList.add("visually-hidden");
+                    }
+                    else {
+                        alert("error", result.mensaje, "");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Manejar el error si es necesario
+                    console.error("Error al llamar a MiMetodo");
+                }
+            });
+
         }
 
         function updLinkColor(obj) {

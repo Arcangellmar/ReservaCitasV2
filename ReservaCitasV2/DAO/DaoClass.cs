@@ -211,7 +211,7 @@ namespace ReservaCitasV2.DAO
                     cmd.Parameters.Add("@PARAM_IN_ID_PACIENTE", MySqlDbType.Int32).Value = request.IdPaciente;
                     cmd.Parameters.Add("@PARAM_IN_ID_LOCAL", MySqlDbType.Int32).Value = request.IdLocal;
                     cmd.Parameters.Add("@PARAM_DT_FECHA", MySqlDbType.Date).Value = request.Fecha;
-                    cmd.Parameters.Add("@PARAM_HR_HORA", MySqlDbType.Time).Value = request.Hora;
+                    cmd.Parameters.Add("@PARAM_HR_HORA", MySqlDbType.VarChar).Value = request.Hora;
                     cmd.Parameters.Add("@PARAM_IN_ID_ESPECIALIDAD", MySqlDbType.Int32).Value = request.IdEspecialidad;
 
                     cmd.ExecuteNonQuery();
@@ -257,6 +257,157 @@ namespace ReservaCitasV2.DAO
                             response.Add(e);
                         }
                     }
+
+                    cn.Close();
+                    cn.Dispose();
+                }
+            }
+            catch
+            {
+
+            }
+
+            return response;
+        }
+
+        public List<Cita> CitaListar()
+        {
+            List<Cita> response = new();
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(connection))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cn.Open();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"SP_CITA_LISTAR";
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Cita e = new();
+
+                            e.Id = Convert.ToInt32(reader["ID_CITA"]);
+                            e.NombreDoctor = Convert.ToString(reader["NOMBRE_DOCTOR"]);
+                            e.EspecialidadDoctor = Convert.ToString(reader["VC_NOMRBE"]);
+                            e.Fecha = Convert.ToDateTime(reader["DT_FECHA"]).ToString("yyyy-MM-dd");
+                            e.Hora = Convert.ToString(reader["HR_HORA"]);
+
+                            response.Add(e);
+                        }
+                    }
+
+                    cn.Close();
+                    cn.Dispose();
+                }
+            }
+            catch
+            {
+
+            }
+
+            return response;
+        }
+
+
+        public List<Cita> CitaListarProgramada()
+        {
+            List<Cita> response = new();
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(connection))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cn.Open();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"SP_CITA_LISTAR_PROGRAMADA";
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Cita e = new();
+
+                            e.Id = Convert.ToInt32(reader["ID_CITA"]);
+                            e.NombreDoctor = Convert.ToString(reader["NOMBRE_DOCTOR"]);
+                            e.EspecialidadDoctor = Convert.ToString(reader["VC_NOMRBE"]);
+                            e.Fecha = Convert.ToDateTime(reader["DT_FECHA"]).ToString("yyyy-MM-dd");
+                            e.Hora = Convert.ToString(reader["HR_HORA"]);
+
+                            response.Add(e);
+                        }
+                    }
+
+                    cn.Close();
+                    cn.Dispose();
+                }
+            }
+            catch
+            {
+
+            }
+
+            return response;
+        }
+
+        public bool CitaCancelar(int? IdCita)
+        {
+            bool response = false;
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(connection))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cn.Open();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"SP_CITA_CANCELAR";
+
+                    cmd.Parameters.Add("@PARAM_ID_CITA", MySqlDbType.Int32).Value = IdCita;
+
+                    cmd.ExecuteNonQuery();
+
+                    response = true;
+
+                    cn.Close();
+                    cn.Dispose();
+                }
+            }
+            catch
+            {
+
+            }
+
+            return response;
+        }
+
+        public bool CitaReprogramar(CitaReprogramarRequest request)
+        {
+            bool response = false;
+
+            try
+            {
+                using (MySqlConnection cn = new MySqlConnection(connection))
+                {
+                    MySqlCommand cmd = new MySqlCommand();
+                    cn.Open();
+                    cmd.Connection = cn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = @"SP_CITA_REPROGRAMAR";
+
+                    cmd.Parameters.Add("@PARAM_DT_FECHA", MySqlDbType.Date).Value = request.Fecha;
+                    cmd.Parameters.Add("@PARAM_HR_HORA", MySqlDbType.VarChar).Value = request.Hora;
+                    cmd.Parameters.Add("@PARAM_ID_CITA", MySqlDbType.Int32).Value = request.IdCita;
+
+                    cmd.ExecuteNonQuery();
+
+                    response = true;
 
                     cn.Close();
                     cn.Dispose();
