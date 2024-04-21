@@ -389,7 +389,7 @@
                         </div>
                     </div>
 
-                    <div class="row" style="background-color:#d4eafc">
+                    <div class="row" style="background-color:#d4eafc" id="tablaProgramadas">
                         <div class="col-md-12">
                             <table class="table table-striped table-hover table-bordered align-middle" id="tblProgramadas">
                                 <thead>
@@ -1103,13 +1103,13 @@
             }
             if (searchElement(text, dspRePro)) {
                 addMsgBox("Claro, ¿Que cita deseas reprogramar?", 0, "left");
-                addMsgBox("Dictame el codigo para llevarte a ella.", 0, "left");
+                addMsgBox("Dictame el codigo para llevarte a ella. 'Reprogramar cita 1'", 0, "left");
                 activarTab(2)
                 return 0;
             }
             if (searchElement(text, dspHist)) {
                 addMsgBox("Claro, este es tu historial de citas ¿Deseas ver el detalle de alguna en particular?", 0, "left");
-                addMsgBox("Dictame el codigo para llevarte a ella.", 0, "left");
+                addMsgBox("Dictame el codigo para llevarte a ella. 'Reprogramar cita 1'", 0, "left");
                 activarTab(3)
                 return 0;
             }
@@ -1157,7 +1157,7 @@
                 addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
                 return 0;
             }
-            if (text == 'doctor maria') {
+            if (text == 'doctora maria') {
 
                 $("#lstDoc").val($("#lstDoc option").filter(function () {
                     return $(this).text() == "Dr. María";
@@ -1350,6 +1350,18 @@
                 return 0;
             }
 
+            var regexcita = /^reprogramar cita (\d+)$/;
+
+            var matchcita = text.match(regexcita);
+
+            if (matchcita) {
+                var numero = parseInt(matchcita[1]);
+                activarTab(2);
+                btnReprogramar_Click(numero);
+
+                return 0;
+            }
+
             // Si no entiende ninguna opcion
             addMsgBox("Lo siento, no entiendo lo que me dices", 0, "left");
 
@@ -1361,6 +1373,7 @@
             let tabReprogramar2 = document.getElementById("tabReprogramar2");
             tabReprogramar1.classList.add("visually-hidden");
             tabReprogramar2.classList.remove("visually-hidden");
+            tablaProgramadas.classList.add("visually-hidden");
         }
 
         function reprogramarCita_Cancelar() {
@@ -1368,6 +1381,7 @@
             let tabReprogramar2 = document.getElementById("tabReprogramar2");
             tabReprogramar1.classList.remove("visually-hidden");
             tabReprogramar2.classList.add("visually-hidden");
+            tablaProgramadas.classList.remove("visually-hidden");
         }
 
         function btnVerDetalles_Historial_Click() {
@@ -1446,6 +1460,7 @@
                         let tabReprogramar2 = document.getElementById("tabReprogramar2");
                         tabReprogramar1.classList.remove("visually-hidden");
                         tabReprogramar2.classList.add("visually-hidden");
+                        tablaProgramadas.classList.remove("visually-hidden");
                         break;
                     }
                 case "lnkCancelar":
