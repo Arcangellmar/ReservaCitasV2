@@ -48,14 +48,14 @@
 </header>
 
 <div class="container">
-    <div class="row h-100">
+    <div class="row">
         <div class="col" id="main_body">
             <header class="p-1 bg-primary text-white text-center fw-bold border border-2 border-top-0 border-primary"
                     style="border-top-left-radius: 10px 10px; border-top-right-radius: 10px 10px;" id="tab_tittle">
                 Reserva de Cita
             </header>
             <div class="border border-2 border-top-0 p-3"
-                 style="position: relative; height:40em; border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px;" id="tab_container">
+                 style="position: relative; border-bottom-left-radius: 10px 10px; border-bottom-right-radius: 10px 10px;" id="tab_container">
                 
 
                 <div id="tabReserva" class="h-100">
@@ -632,13 +632,12 @@
             Swal.fire({
                 icon: type,
                 title,
-                html,
-                timer,
-                timerProgressBar: true,
+                html
             }).then((result) => {
                 if (result.dismiss === Swal.DismissReason.timer) {
-                    console.log('I was closed by the timer')
+                    console.log('I was closed by the timer');
                 }
+                window.location.reload();
             })
         }
 
@@ -1003,15 +1002,15 @@
             if (text == '') {
                 return 0;
             }
-            if (text.includes('Adrián')) {
-                text = 'Alo adrian herrera cou'
-            }
-            if (text.includes('doctor Monroy')) {
-                text = 'quisiera sacar una cita con el doctor monrroy en la especialidad de traumatologia'
-            }
-            if (text.includes('La primera está bien.')) {
-                text = 'la primera fecha esta bien'
-            }
+            // if (text.includes('Adrián')) {
+            //     text = 'Alo adrian herrera cou'
+            // }
+            // if (text.includes('doctor Monroy')) {
+            //     text = 'quisiera sacar una cita con el doctor monrroy en la especialidad de traumatologia'
+            // }
+            // if (text.includes('La primera está bien.')) {
+            //     text = 'la primera fecha esta bien'
+            // }
             function searchElement(e, list) {
                 for (let i of list) {
                     if (i.toLowerCase() == e) {
@@ -1020,6 +1019,7 @@
                 }
             }
             text = text.replaceAll('.', '');
+            text = text.replaceAll('é', 'e');
             text = text.toLowerCase();
             let dspReserva = ["Reservar cita", "Quisiera Reservar cita", "Quisiera Reservar una cita", "Reservar una cita", "Sacar una cita", "Quisiera Sacar cita", "Quisiera Sacar una cita", "Crear cita"];
             let dspRePro = ["Reprogramar cita", "Quisiera Reprogramar cita", "Quisiera Reprogramar una cita", "Reprogramar una cita"];
@@ -1111,10 +1111,10 @@
             }
 
             // Especialidad
-            if (text == 'especialidad traumatologia') {
+            if (text.includes("especialidad")) { //text == 'especialidad traumatologia'
 
                 $("#lstEsp").val($("#lstEsp option").filter(function () {
-                    return $(this).text() == "TRAUMATOLOGIA";
+                    return $(this).text() == text.replace("especialidad ", "").toUpperCase();
                 }).val());
 
                 addMsgBox("¿Con que local seria la cita? escriba 'local y nombre del local'", 0, "left");
@@ -1143,18 +1143,52 @@
 
             // fecha y hora
 
-            var regex = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})$/;
+            var regex = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{1,2}):(\d{2})$/;
             var match = text.match(regex);
 
 
             if (match) {
 
                 $("#txtDate").val(match[3] + "-" + match[2] + "-" + match[1]);
-                $("#lstHour").val(match[4] + ":" + match[5]);
+                $("#lstHour").val(match[4].toString().padStart(2, '0') + ":" + match[5]);
 
                 addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
                 return 0;
             }
+
+
+            var regex2 = /^(\d{1,2}) de (\w+) del (\d{4}) a las (\d{1,2}):(\d{2})$/;
+            var match2 = text.match(regex2);
+
+            if (match2) {
+
+                var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+
+                $("#txtDate").val(match2[3] + "-" + (meses.indexOf(match2[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match2[1]);
+                $("#lstHour").val(match2[4].toString().padStart(2, '0') + ":" + match2[5]);
+
+                addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
+                return 0;
+            }
+
+
+
+            var regex3 = /^(\d{1,2}) de (\w+) del (\d{4}) a las (\d{1,2})$/;
+            var match3 = text.match(regex3);
+
+            if (match3) {
+
+                var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+
+                $("#txtDate").val(match3[3] + "-" + (meses.indexOf(match3[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match3[1]);
+                $("#lstHour").val(match3[4].toString().padStart(2, '0') + ":" + "00");
+
+                addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
+                return 0;
+            }
+
 
             if (text == "confirmar"){
                 reservaCita();
@@ -1169,6 +1203,31 @@
                 return 0;
             }
             if (text == 'dirigete a reservar cita medica') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reserva cita') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reserva una cita') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reserva una cita medica') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reservar cita') {
+                $("#lnkReserva").click();
+                addMsgBox("Redirigiendo a reservar cita", 0, "left");
+                return 0;
+            }
+            if (text == 'dirigete a reserva cita medica') {
                 $("#lnkReserva").click();
                 addMsgBox("Redirigiendo a reservar cita", 0, "left");
                 return 0;
