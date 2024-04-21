@@ -254,7 +254,24 @@ CREATE TABLE IF NOT EXISTS `ta_citas` (
   PRIMARY KEY (`ID_CITA`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla reserva_citas.ta_citas: ~15 rows (aproximadamente)
+DELETE FROM `ta_citas`;
+INSERT INTO `ta_citas` (`ID_CITA`, `IN_ID_DOCTOR`, `IN_ID_ESPECIALIDAD`, `IN_ID_PACIENTE`, `IN_ID_LOCAL`, `DT_FECHA`, `HR_HORA`, `CH_SITUACION_REGISTRO`) VALUES
+	(1, 3, 7, 1, 2, '2024-04-20', '07:30', 'A'),
+	(2, 1, 1, 1, 1, '2024-04-26', '07:30', 'A'),
+	(3, 3, 8, 1, 1, '2024-04-18', '08:00', 'A'),
+	(4, 2, 1, 1, 1, '2024-04-30', '09:00', 'A'),
+	(5, 5, 9, 1, 1, '2024-04-26', '09:00', 'A'),
+	(6, 2, 1, 1, 2, '2024-04-22', '10:00', 'A'),
+	(7, 1, 6, 1, 1, '2024-04-24', '09:30', 'A'),
+	(8, 4, 1, 1, 2, '2024-04-26', '08:00', 'A'),
+	(9, 2, 1, 1, 2, '2024-04-24', '10:00', 'A'),
+	(10, 5, 42, 1, 1, '2024-04-22', '08:00', 'A'),
+	(11, 2, 1, 1, 2, '2024-04-12', '10:00', 'A'),
+	(12, 3, 7, 1, 2, '2024-04-21', '08:30', 'A'),
+	(13, 4, 5, 1, 2, '2024-04-21', '08:00', 'A'),
+	(14, 2, 4, 1, 1, '2024-04-20', '07:30', 'A'),
+	(15, 2, 7, 1, 1, '2024-04-21', '08:00', 'A');
 
 -- Volcando estructura para tabla reserva_citas.ta_doctor
 DROP TABLE IF EXISTS `ta_doctor`;
@@ -266,7 +283,15 @@ CREATE TABLE IF NOT EXISTS `ta_doctor` (
   PRIMARY KEY (`ID_DOCTOR`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla reserva_citas.ta_doctor: ~6 rows (aproximadamente)
+DELETE FROM `ta_doctor`;
+INSERT INTO `ta_doctor` (`ID_DOCTOR`, `VC_NOMBRE`, `IN_ID_ESPECIALIDAD`, `CH_SITUACION_REGISTRO`) VALUES
+	(1, 'Dr. Monrroy', 1, 'A'),
+	(2, 'Dr. Garcia', 2, 'A'),
+	(3, 'Dr. Gareca', 2, 'A'),
+	(4, 'Dr. Milos', 2, 'A'),
+	(5, 'Dra. María', 3, 'A'),
+	(6, 'Dr. Jose', 4, 'A');
 
 -- Volcando estructura para tabla reserva_citas.ta_especialidad
 DROP TABLE IF EXISTS `ta_especialidad`;
@@ -277,7 +302,62 @@ CREATE TABLE IF NOT EXISTS `ta_especialidad` (
   PRIMARY KEY (`ID_ESPECIALIDAD`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla reserva_citas.ta_especialidad: ~48 rows (aproximadamente)
+DELETE FROM `ta_especialidad`;
+INSERT INTO `ta_especialidad` (`ID_ESPECIALIDAD`, `VC_NOMRBE`, `CH_SITUACION_REGISTRO`) VALUES
+	(1, 'TRAUMATOLOGIA', 'A'),
+	(2, 'MEDICINA FISICA - REHABILITACION', 'A'),
+	(3, 'ALERGIA E INMUNOLOGIA', 'A'),
+	(4, 'CARDIOLOGIA CLINICA HEMODINAMICA', 'A'),
+	(5, 'CARDIOLOGIA PEDIATRICA', 'A'),
+	(6, 'CIRUG.CABEZA - CUELLO MAXILOFACIAL', 'A'),
+	(7, 'CIRUGIA CARDIOVASCULAR', 'A'),
+	(8, 'CIRUGIA DE TORAX', 'A'),
+	(9, 'CIRUGIA GENERAL', 'A'),
+	(10, 'CIRUGIA ONCOLOGICA', 'A'),
+	(11, 'CIRUGIA ORAL Y MAXILO FACIAL', 'A'),
+	(12, 'CIRUGIA PEDIATRICA', 'A'),
+	(13, 'CIRUGIA TORACICA Y CARDIOVASCULAR', 'A'),
+	(14, 'CIRUGIA VASCULAR PERIFERICA', 'A'),
+	(15, 'CIRUG.PLASTICA ESTET.QUEMADOS', 'A'),
+	(16, 'DERMATOLOGIA', 'A'),
+	(17, 'DERMATOLOGIA PEDIATRICA', 'A'),
+	(18, 'ENDOCRINOLOGIA', 'A'),
+	(19, 'ENDOCRINOLOGIA PEDIATRICA', 'A'),
+	(20, 'ENDODONCIA', 'A'),
+	(21, 'GASTROENTEROLOGIA', 'A'),
+	(22, 'GENETICA MEDICA', 'A'),
+	(23, 'GERIATRIA', 'A'),
+	(24, 'GINECOLOGIA ONCOLOGICA', 'A'),
+	(25, 'GINECO - OBSTETRICIA', 'A'),
+	(26, 'HEMATOLOGIA CLINICA', 'A'),
+	(27, 'MASTOLOGIA', 'A'),
+	(28, 'MEDICINA DE ENFERMEDADES INFECCIOSAS Y TROPICALES', 'A'),
+	(29, 'MEDICINA HIPERBARICA', 'A'),
+	(30, 'MEDICINA INTERNA', 'A'),
+	(31, 'NEFROLOGIA', 'A'),
+	(32, 'NEFROLOGIA PEDIATRICA', 'A'),
+	(33, 'NEUMOLOGIA', 'A'),
+	(34, 'NEUMOLOGIA PEDIATRICA', 'A'),
+	(35, 'NEUROCIRUGIA', 'A'),
+	(36, 'NEUROCIRUGIA PEDIATRICA', 'A'),
+	(37, 'NEUROLOGIA', 'A'),
+	(38, 'NEUROPSICOLOGÌA', 'A'),
+	(39, 'NUTRICIONISTA', 'A'),
+	(40, 'ODONTOLOGIA', 'A'),
+	(41, 'ODONTOPEDIATRIA', 'A'),
+	(42, 'OFTALMOLOGIA', 'A'),
+	(43, 'OFTALMOLOGIA PEDIATRICA', 'A'),
+	(44, 'ONCOLOGIA MEDICA', 'A'),
+	(45, 'ORTODONCIA Y ORTOPEDIA MAXILAR', 'A'),
+	(46, 'OTORRINO LARINGOLOGIA', 'A'),
+	(47, 'PEDIATRIA Y NEONATOLOGIA', 'A'),
+	(48, 'PSICOLOGIA', 'A'),
+	(49, 'PSICOLOGIA INFANTIL', 'A'),
+	(50, 'PSIQUIATRIA', 'A'),
+	(51, 'REUMATOLOGIA', 'A'),
+	(52, 'TERAPIA DE LENGUAJE Y APRENDIZAJE', 'A'),
+	(53, 'UROLOGIA', 'A');
 
 -- Volcando estructura para tabla reserva_citas.ta_local
 DROP TABLE IF EXISTS `ta_local`;
@@ -289,7 +369,11 @@ CREATE TABLE IF NOT EXISTS `ta_local` (
   PRIMARY KEY (`ID_LOCAL`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla reserva_citas.ta_local: ~2 rows (aproximadamente)
+DELETE FROM `ta_local`;
+INSERT INTO `ta_local` (`ID_LOCAL`, `VC_NOIMBRE`, `VC_DIRECCION`, `CH_SITUACION_REGISTRO`) VALUES
+	(1, 'Local Principal', 'Javier Prado', 'A'),
+	(2, 'Local Rambla', 'Aviacion con Javier Prado', 'A');
 
 -- Volcando estructura para tabla reserva_citas.ta_paciente
 DROP TABLE IF EXISTS `ta_paciente`;
@@ -307,7 +391,10 @@ CREATE TABLE IF NOT EXISTS `ta_paciente` (
   PRIMARY KEY (`ID_PACIENTE`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla reserva_citas.ta_paciente: ~1 rows (aproximadamente)
+DELETE FROM `ta_paciente`;
+INSERT INTO `ta_paciente` (`ID_PACIENTE`, `VC_NOMBRE`, `VC_EDAD`, `VC_SEXO`, `IN_ID_SEGURO`, `VC_PESO`, `VC_ALTURA`, `VC_DNI`, `VC_PASS`, `CH_SITUACION_REGISTRO`) VALUES
+	(1, 'Rolando Zafra', '21', 'Masculino', 1, '81.5', '1.82', '70998706', 'Patatas123', 'A');
 
 -- Volcando estructura para tabla reserva_citas.ta_seguro
 DROP TABLE IF EXISTS `ta_seguro`;
@@ -318,7 +405,12 @@ CREATE TABLE IF NOT EXISTS `ta_seguro` (
   PRIMARY KEY (`ID_SEGURO`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla reserva_citas.ta_seguro: ~2 rows (aproximadamente)
+DELETE FROM `ta_seguro`;
+INSERT INTO `ta_seguro` (`ID_SEGURO`, `NOMBRE`, `CH_SITUACION_REGISTRO`) VALUES
+	(1, 'PACIFICO EPS', 'A'),
+	(2, 'EPS SANITAS', 'A'),
+	(3, 'RIMAC SEGUROS', 'A');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
