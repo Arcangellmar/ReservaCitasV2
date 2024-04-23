@@ -658,6 +658,8 @@
         var IdUsuario = "@Model.Usuario.IdUsuario";
         var ListaCitasProgramadas = @Html.Raw(Json.Serialize(Model.lstCitaProgramada));
 
+        var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
         function logout() {
 
             $.ajax({
@@ -1125,6 +1127,15 @@
             console.log(text);
 
             // Select doctores
+            if (text == 'doctor monroy') {
+
+                $("#lstDoc").val($("#lstDoc option").filter(function () {
+                    return $(this).text() == "Dr. Monrroy";
+                }).val());
+
+                addMsgBox("¿Con que especialidad seria la cita? escriba 'especialidad y nombre de la especialidad'", 0, "left");
+                return 0;
+            }
             if (text == 'doctor monrroy') {
 
                 $("#lstDoc").val($("#lstDoc option").filter(function () {
@@ -1232,9 +1243,6 @@
 
             if (match2) {
 
-                var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-
-
                 $("#txtDate").val(match2[3] + "-" + (meses.indexOf(match2[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match2[1]);
                 $("#lstHour").val(match2[4].toString().padStart(2, '0') + ":" + match2[5]);
 
@@ -1249,9 +1257,6 @@
 
             if (match3) {
 
-                var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-
-
                 $("#txtDate").val(match3[3] + "-" + (meses.indexOf(match3[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match3[1]);
                 $("#lstHour").val(match3[4].toString().padStart(2, '0') + ":" + "00");
 
@@ -1264,9 +1269,6 @@
             var match4 = text.match(regex4);
 
             if (match4) {
-
-                var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-
 
                 $("#txtDate").val(match4[3] + "-" + (meses.indexOf(match4[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match4[1]);
                 $("#lstHour").val(match4[4].toString().padStart(2, '0') + ":" + "00");
