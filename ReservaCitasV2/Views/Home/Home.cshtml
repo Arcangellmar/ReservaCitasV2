@@ -1212,6 +1212,15 @@
                 addMsgBox("¿Con que fecha y hora seria? escriba el formato dia de mes del año a las hora:minuto (24 de abril del 2024 a las 10)", 0, "left");
                 return 0;
             }
+            if (text == 'local ranbla') {
+
+                $("#local").val($("#local option").filter(function () {
+                    return $(this).text() == "Local Rambla";
+                }).val());
+
+                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia de mes del año a las hora:minuto (24 de abril del 2024 a las 10)", 0, "left");
+                return 0;
+            }
             if (text == 'local rambla') {
 
                 $("#local").val($("#local option").filter(function () {
@@ -1279,6 +1288,10 @@
 
 
             if (text == "confirmar"){
+                reservaCita();
+                return 0;
+            }
+            if (text == "aceptar") {
                 reservaCita();
                 return 0;
             }
@@ -1358,11 +1371,40 @@
 
                 if (ListaCitasProgramadas.length != 0) {
 
-                    btnReprogramarCancelar_Click('row_reprogramar_' + ListaCitasProgramadas[0].id, ListaCitasProgramadas[0].id);
+                    Swal.fire({
+                        icon: "warning",
+                        title: "¿Seguro que deseas cancelar la cita?",
+                        text: "No prodrá recuperar despues"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                    ListaCitasProgramadas.splice(0, 1);
+                            $.ajax({
+                                url: '@Url.Action("CitaCancelar", "Home")?IdCita=' + ListaCitasProgramadas[0].id,
+                                type: 'DELETE',
+                                contentType: "application/json",
+                                success: function (result) {
 
-                    addMsgBox("Se elimino la ultima cita programada", 0, "left");
+                                    if (result.estado == true) {
+                                        row = document.getElementById('row_reprogramar_' + ListaCitasProgramadas[0].id)
+                                        row.classList.add("visually-hidden");
+
+                                        ListaCitasProgramadas.splice(0, 1);
+
+                                        addMsgBox("Se elimino la ultima cita programada", 0, "left");
+                                    }
+                                    else {
+                                        alert("error", result.mensaje, "");
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    // Manejar el error si es necesario
+                                    console.error("Error al llamar a MiMetodo");
+                                }
+                            });
+
+                        }
+                    })
+
 
                 }
                 else {
@@ -1422,31 +1464,40 @@
 
         function btnReprogramarCancelar_Click(text = '', IdCita) {
 
-            console.log(IdCita);
-
             if (text == '') {
                 return 0;
             }
 
-            $.ajax({
-                url: '@Url.Action("CitaCancelar", "Home")?IdCita=' + IdCita,
-                type: 'DELETE',
-                contentType: "application/json",
-                success: function (result) {
 
-                    if (result.estado == true) {
-                        row = document.getElementById(text)
-                        row.classList.add("visually-hidden");
-                    }
-                    else {
-                        alert("error", result.mensaje, "");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // Manejar el error si es necesario
-                    console.error("Error al llamar a MiMetodo");
+            Swal.fire({
+                icon: "warning",
+                title: "¿Seguro que deseas cancelar la cita?",
+                text: "No prodrá recuperar despues"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: '@Url.Action("CitaCancelar", "Home")?IdCita=' + IdCita,
+                        type: 'DELETE',
+                        contentType: "application/json",
+                        success: function (result) {
+
+                            if (result.estado == true) {
+                                row = document.getElementById(text)
+                                row.classList.add("visually-hidden");
+                            }
+                            else {
+                                alert("error", result.mensaje, "");
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Manejar el error si es necesario
+                            console.error("Error al llamar a MiMetodo");
+                        }
+                    });
+
                 }
-            });
+            })
 
         }
 
