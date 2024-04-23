@@ -1086,6 +1086,10 @@
             }
             text = text.replaceAll('.', '');
             text = text.replaceAll('é', 'e');
+            text = text.replaceAll('á', 'a');
+            text = text.replaceAll('í', 'i');
+            text = text.replaceAll('ó', 'o');
+            text = text.replaceAll('ú', 'u');
             text = text.toLowerCase();
             let dspReserva = ["Reservar cita", "Quisiera Reservar cita", "Quisiera Reservar una cita", "Reservar una cita", "Sacar una cita", "Quisiera Sacar cita", "Quisiera Sacar una cita", "Crear cita"];
             let dspRePro = ["Reprogramar cita", "Quisiera Reprogramar cita", "Quisiera Reprogramar una cita", "Reprogramar una cita"];
