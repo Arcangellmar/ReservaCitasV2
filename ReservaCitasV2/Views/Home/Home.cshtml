@@ -657,6 +657,7 @@
         var IdCitaGlobal = null;
         var IdUsuario = "@Model.Usuario.IdUsuario";
         var ListaCitasProgramadas = @Html.Raw(Json.Serialize(Model.lstCitaProgramada));
+        speechSynthesis.getVoices();
 
         var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
@@ -1568,7 +1569,20 @@
             }
             const utterance = new SpeechSynthesisUtterance();
             utterance.lang = "es-ES";
-            utterance.voice = speechSynthesis.getVoices()[0];
+            // utterance.voice = speechSynthesis.getVoices()[0];
+
+
+            // Obtener la voz que deseas utilizar (puedes cambiar el índice según la voz que prefieras)
+            const selectedVoice = speechSynthesis.getVoices().find(voice => voice.name === 'Microsoft Raul - Spanish (Mexico)');
+
+            // Si la voz deseada no está disponible, puedes seleccionar otra voz o manejar el caso de manera adecuada.
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            } else {
+                utterance.voice = speechSynthesis.getVoices()[0];
+            }
+
+
             utterance.volume = 1;
             utterance.rate = 1;
             utterance.pitch = 1;
