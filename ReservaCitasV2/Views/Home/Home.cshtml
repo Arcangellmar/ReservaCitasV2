@@ -1198,7 +1198,7 @@
                     return $(this).text() == "Local Principal";
                 }).val());
 
-                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia/mes/año hora:minuto", 0, "left");
+                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia de mes del año a las hora:minuto (24 de abril del 2024 a las 10)", 0, "left");
                 return 0;
             }
             if (text == 'local rambla') {
@@ -1207,7 +1207,7 @@
                     return $(this).text() == "Local Rambla";
                 }).val());
 
-                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia/mes/año hora:minuto", 0, "left");
+                addMsgBox("¿Con que fecha y hora seria? escriba el formato dia de mes del año a las hora:minuto (24 de abril del 2024 a las 10)", 0, "left");
                 return 0;
             }
 
@@ -1254,6 +1254,22 @@
 
                 $("#txtDate").val(match3[3] + "-" + (meses.indexOf(match3[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match3[1]);
                 $("#lstHour").val(match3[4].toString().padStart(2, '0') + ":" + "00");
+
+                addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
+                return 0;
+            }
+
+
+            var regex4 = /^(\d{1,2}) de (\w+) del (\d{4}) a las (\d{1,2}) en punto$/;
+            var match4 = text.match(regex4);
+
+            if (match4) {
+
+                var meses = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+
+                $("#txtDate").val(match4[3] + "-" + (meses.indexOf(match4[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match4[1]);
+                $("#lstHour").val(match4[4].toString().padStart(2, '0') + ":" + "00");
 
                 addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
                 return 0;
