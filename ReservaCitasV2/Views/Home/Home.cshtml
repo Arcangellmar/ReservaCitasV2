@@ -219,7 +219,7 @@
                                             string endMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)).ToString("yyyy-MM-dd");
                                         }
                                         <label for="txtDate" class="form-label fw-bold">Fecha:</label>
-                                        <input type="date" min="@today" max="@endMonth" value="@today" class="form-control" id="txtDate" required="" style="background-color: #f0f2f5;">
+                                        <input type="date" value="@today" class="form-control" id="txtDate" required="" style="background-color: #f0f2f5;">
                                         <div class="invalid-feedback">Por favor selecciona una fecha</div>
                                     </div>
                                 </div>
@@ -1362,6 +1362,13 @@
                 return 0;
             }
             if (text == "busca mis citas con el doctor monrroy") {
+                $("#lnkReprogramar").click();
+                addMsgBox("Buscando citas con el doctor Monrroy", 0, "left");
+                $("#txtBuscarProgramadas").val("monrroy");
+                BuscarCita('tblProgramadas', 'txtBuscarProgramadas');
+                return 0;
+            }
+            if (text == "busca mis citas con el doctor monroy") {
                 $("#lnkReprogramar").click();
                 addMsgBox("Buscando citas con el doctor Monrroy", 0, "left");
                 $("#txtBuscarProgramadas").val("monrroy");
