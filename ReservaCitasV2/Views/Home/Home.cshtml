@@ -329,7 +329,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="txtDateReprogramar" class="form-label fw-bold">Fecha:</label>
-                                            <input type="date" min="@today" max="@endMonth" class="form-control" id="txtDateReprogramar" required="">
+                                            <input type="date" class="form-control" id="txtDateReprogramar" required="">
                                             <div class="invalid-feedback">Rellena este campo</div>
                                         </div>
                                     </div>
@@ -511,7 +511,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="txtDateHistorial" class="form-label fw-bold">Fecha:</label>
-                                            <input type="date" min="@today" max="@endMonth" value="2023-09-03" class="form-control" id="txtDateHistorial" disabled="">
+                                            <input type="date" value="2023-09-03" class="form-control" id="txtDateHistorial" disabled="">
                                             <div class="invalid-feedback">Rellena este campo</div>
                                         </div>
                                     </div>
@@ -1253,7 +1253,7 @@
 
             if (match2) {
 
-                $("#txtDate").val(match2[3] + "-" + (meses.indexOf(match2[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match2[1]);
+                $("#txtDate").val(match2[3] + "-" + (meses.indexOf(match2[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match2[1].toString().padStart(2, '0'));
                 $("#lstHour").val(match2[4].toString().padStart(2, '0') + ":" + match2[5]);
 
                 addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
@@ -1267,7 +1267,7 @@
 
             if (match3) {
 
-                $("#txtDate").val(match3[3] + "-" + (meses.indexOf(match3[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match3[1]);
+                $("#txtDate").val(match3[3] + "-" + (meses.indexOf(match3[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match3[1].toString().padStart(2, '0'));
                 $("#lstHour").val(match3[4].toString().padStart(2, '0') + ":" + "00");
 
                 addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
@@ -1280,7 +1280,7 @@
 
             if (match4) {
 
-                $("#txtDate").val(match4[3] + "-" + (meses.indexOf(match4[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match4[1]);
+                $("#txtDate").val(match4[3] + "-" + (meses.indexOf(match4[2].toLowerCase()) + 1).toString().padStart(2, '0') + "-" + match4[1].toString().padStart(2, '0'));
                 $("#lstHour").val(match4[4].toString().padStart(2, '0') + ":" + "00");
 
                 addMsgBox("Datos confirmados, escriba 'confirmar' para crear la cita", 0, "left");
@@ -1355,24 +1355,24 @@
                 return 0;
             }
             if (text == "busca mis citas de traumatologia") {
-                $("#lnkReprogramar").click();
+                $("#lnkHistorial").click();
                 addMsgBox("Buscando citas de traumatologia", 0, "left");
-                $("#txtBuscarProgramadas").val("traumatologia");
-                BuscarCita('tblProgramadas', 'txtBuscarProgramadas');
+                $("#txtBuscar").val("traumatologia");
+                BuscarCita('tblHistorial', 'txtBuscar');
                 return 0;
             }
             if (text == "busca mis citas con el doctor monrroy") {
-                $("#lnkReprogramar").click();
+                $("#lnkHistorial").click();
                 addMsgBox("Buscando citas con el doctor Monrroy", 0, "left");
-                $("#txtBuscarProgramadas").val("monrroy");
-                BuscarCita('tblProgramadas', 'txtBuscarProgramadas');
+                $("#txtBuscar").val("monrroy");
+                BuscarCita('tblHistorial', 'txtBuscar');
                 return 0;
             }
             if (text == "busca mis citas con el doctor monroy") {
-                $("#lnkReprogramar").click();
+                $("#lnkHistorial").click();
                 addMsgBox("Buscando citas con el doctor Monrroy", 0, "left");
-                $("#txtBuscarProgramadas").val("monrroy");
-                BuscarCita('tblProgramadas', 'txtBuscarProgramadas');
+                $("#txtBuscar").val("monrroy");
+                BuscarCita('tblHistorial', 'txtBuscar');
                 return 0;
             }
             if (text == "quiero cancelar la ultima cita medica programada") {
